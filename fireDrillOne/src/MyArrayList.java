@@ -6,8 +6,8 @@ public class MyArrayList {
 
     public boolean isEmpty() {
 
-        if(noOfElements == 0)return true;
-        return false;
+        return noOfElements == 0;
+
     }
 
     public void add(String goods) {
