@@ -14,7 +14,7 @@ public class MenstrualFlowCalculator1 {
             String year = scanner.nextLine();
             int convertedYear = Integer.parseInt(year);
 
-            while (!(convertedYear >= 2023) || !(convertedYear <= 2025)) {
+            while (!(convertedYear >= 1990) || !(convertedYear <= 2025)) {
 
                 System.out.println("Please enter a recent and valid year: ");
                 year = scanner.nextLine();

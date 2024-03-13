@@ -33,22 +33,19 @@ public class TicTacToe {
         for (int row = 0; row < 3; row++){
             if (board[row][0] ==player && board[row][1] == player && board[row][2]==player){
                 winner = player;
-                System.out.println("Player "+ winner + " wins");
                 return true;
             }
             if (board[0][row] ==player && board[1][row] == player && board[2][row]==player){
                 winner = player;
-                System.out.println("Player "+ winner + " wins");
                 return true;
             }
             if (board[0][0] ==player && board[1][1] == player && board[2][2]==player){
                 winner = player;
-                System.out.println("Player "+ winner + " wins");
                 return true;
+
             }
             if(board[0][2] ==player && board[1][1] == player && board[2][0]==player){
                 winner = player;
-                System.out.println("Player "+ winner + " wins");
                 return true;
             }
         }
@@ -56,12 +53,26 @@ public class TicTacToe {
     }
 
     public void checkBoard(Check playerCell, int position) {
-        int row = (position-1) / 3;
+        int row = (position - 1) / 3;
         int column = (position - 1) % 3;
         board[row][column] = playerCell;
-        if(checkForWinner(playerCell))System.exit(0);
-        if(isBoardFull())System.exit(0);
+        if(checkForWinner(playerCell)){
+            display();
+            print("Player "+winner+" wins");
+            System.exit(0);}
+        if(isBoardFull()){
+            display();
+            print("Draw");
+            System.exit(0);
+        }
 
+    }
+
+    public boolean isInvalidMove(int position) {
+        int row = (position - 1)/3;
+        int column = (position - 1)%3;
+        if(board[row][column] != EMPTY)throw new InvalidMoveException("Move taken");
+        return false;
     }
 
     public boolean isBoardFull() {
@@ -69,22 +80,25 @@ public class TicTacToe {
             for (Check check : checks)
                 if (check == EMPTY) return false;
         }
-        System.out.println("Draw");
+
         return true;
     }
 
 
     public void display(){
-        System.out.println("\n---------------------");
+        print("\n---------------------\n");
         for(int row = 0; row < 3; row++){
-            System.out.print("| ");
+            print("| ");
             for (int column = 0; column < 3; column++){
-                System.out.print(board[row][column]+"| ");
+                print(board[row][column]+"| ");
             }
-            System.out.println("\n---------------------");
+            print("\n---------------------\n");
         }
     }
 
+    public void print(String menu){
+        System.out.print(menu);
+    }
     public Check[][] getBoard() {
         return board;
     }

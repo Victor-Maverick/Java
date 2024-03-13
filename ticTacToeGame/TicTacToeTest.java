@@ -44,4 +44,14 @@ public class TicTacToeTest {
         assertTrue(ticTacToe.checkForWinner(Check.X));
     }
 
+    @Test
+    public void player1CanWinAcrossRow2(){
+        ticTacToe.player1.play(ticTacToe, 4);
+        ticTacToe.player2.play(ticTacToe, 2);
+        ticTacToe.player1.play(ticTacToe, 5);
+        ticTacToe.player2.play(ticTacToe, 9);
+        ticTacToe.player1.play(ticTacToe, 6);
+        assertTrue(ticTacToe.checkForWinner(Check.X));
+    }
+
 }
