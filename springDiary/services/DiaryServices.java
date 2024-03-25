@@ -32,5 +32,5 @@ public interface DiaryServices {
 
     List<Entry> findAllEntries();
 
-    void deleteEntryBy(String title);
+    void deleteEntryBy(String title, String author);
 }

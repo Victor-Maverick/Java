@@ -2,10 +2,12 @@ package springDiary.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import springDiary.exceptions.DiaryNotFoundException;
 import springDiary.exceptions.NonExistingAuthorException;
 import springDiary.data.model.Entry;
 import springDiary.data.repository.EntryRepository;
 import springDiary.dtos.request.CreateEntryRequest;
+import springDiary.exceptions.TitleExistsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,9 @@ public class EntryServicesImp implements EntryServices {
     private EntryRepository entryRepository;
     @Override
     public void addEntryWith(CreateEntryRequest entryRequest) {
+        String entryTitle = entryRequest.getTitle();
+        entryRepository.findAll().forEach(entry -> {if(entry.getTitle().equalsIgnoreCase(entryTitle)) throw new TitleExistsException("title exists");
+        });
         Entry entry = new Entry();
         entry.setTitle(entryRequest.getTitle());
         entry.setBody(entryRequest.getBody());
@@ -24,8 +29,9 @@ public class EntryServicesImp implements EntryServices {
     }
 
     @Override
-    public void deleteWith(String title) {
+    public void deleteWith(String title, String author) {
         Entry entry = entryRepository.findByTitle(title);
+        if(!entry.getAuthor().equalsIgnoreCase(author))throw new DiaryNotFoundException("not your diary");
         entryRepository.delete(entry);
 
     }

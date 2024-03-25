@@ -92,10 +92,10 @@ public class DiaryController {
         return diaryServices.findAllEntries().size();
     }
 
-    @DeleteMapping("/delete/{entryTitle}")
-    public String deleteWith(@PathVariable("entryTitle") String title) {
+    @DeleteMapping("/delete/{title}")
+    public String deleteWith(@PathVariable("title") String title, String author){
         try{
-            diaryServices.deleteEntryBy(title);
+            diaryServices.deleteEntryBy(title, author);
             return "delete successful";
         }
         catch (DiaryAppException e){

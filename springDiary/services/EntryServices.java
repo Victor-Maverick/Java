@@ -10,8 +10,7 @@ import java.util.List;
 public interface EntryServices {
     void addEntryWith(CreateEntryRequest entryRequest);
 
-
-    void deleteWith(String title);
+    void deleteWith(String title, String author);
 
     int getNumberOfEntries();
 
