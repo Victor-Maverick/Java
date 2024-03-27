@@ -20,7 +20,9 @@ public class UserServicesImpl implements UserServices {
         user.setLastName(registerRequest.getLastName());
         user.setUserName(registerRequest.getUserName());
         user.setPassword(registerRequest.getPassword());
-        users.save(user);
+        User savedUser  = users.save(user);
+
+        return Mapper.map(savedUser);
 
 
     }
