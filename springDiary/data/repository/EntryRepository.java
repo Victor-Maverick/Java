@@ -7,6 +7,6 @@ import springDiary.data.model.Entry;
 
 @Repository
 public interface EntryRepository extends MongoRepository<Entry , String> {
-      Entry findByTitle(String title);
+
 
 }
