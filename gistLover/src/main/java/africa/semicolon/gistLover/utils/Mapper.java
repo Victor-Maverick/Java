@@ -12,7 +12,7 @@ public class Mapper {
         RegisterUserResponse registerUserResponse = new RegisterUserResponse();
         registerUserResponse.setId(savedUser.getId());
         registerUserResponse.setUsername(savedUser.getUserName());
-        registerUserResponse.setDateRegistered(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+        registerUserResponse.setDateRegistered(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(savedUser.getDateCreated()));
+        return registerUserResponse;
     }
 }

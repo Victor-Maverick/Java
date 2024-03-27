@@ -3,7 +3,9 @@ package africa.semicolon.gistLover.services;
 import africa.semicolon.gistLover.data.model.User;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.dtos.RegisterRequest;
+import africa.semicolon.gistLover.dtos.RegisterUserResponse;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
+import africa.semicolon.gistLover.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ public class UserServicesImpl implements UserServices {
     @Autowired
     private UserRepository users;
 
-    public void registerUserWith(RegisterRequest registerRequest) {
+    public RegisterUserResponse registerUserWith(RegisterRequest registerRequest) {
         registerRequest.setUserName(registerRequest.getUserName().toLowerCase());
         validateUsername(registerRequest.getUserName());
         User user = new User();

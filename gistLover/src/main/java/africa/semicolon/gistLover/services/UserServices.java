@@ -1,11 +1,12 @@
 package africa.semicolon.gistLover.services;
 
 import africa.semicolon.gistLover.dtos.RegisterRequest;
+import africa.semicolon.gistLover.dtos.RegisterUserResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserServices {
 
-    void registerUserWith(RegisterRequest registerRequest);
+    RegisterUserResponse registerUserWith(RegisterRequest registerRequest);
 
 }
