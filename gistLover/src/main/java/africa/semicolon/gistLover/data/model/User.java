@@ -13,6 +13,6 @@ public class User {
     private String lastName;
     private String userName;
     private String password;
-    private LocalDateTime dateCreated;
+    private LocalDateTime dateCreated = LocalDateTime.now();
 
 }

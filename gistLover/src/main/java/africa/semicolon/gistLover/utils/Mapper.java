@@ -8,6 +8,12 @@ import java.time.format.DateTimeFormatter;
 
 public class Mapper {
 
+    public static void map(RegisterRequest registerRequest, User user){
+        user.setFirstName(registerRequest.getFirstName());
+        user.setLastName(registerRequest.getLastName());
+        user.setUserName(registerRequest.getUserName());
+        user.setPassword(registerRequest.getPassword());
+    }
     public static RegisterUserResponse map(User savedUser){
         RegisterUserResponse registerUserResponse = new RegisterUserResponse();
         registerUserResponse.setId(savedUser.getId());
