@@ -54,6 +54,4 @@ class PostRepositoryTest {
         assertEquals(0, posts.count());
     }
 
-
-
 }
