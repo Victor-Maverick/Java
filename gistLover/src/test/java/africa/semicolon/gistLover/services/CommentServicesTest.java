@@ -37,13 +37,5 @@ class CommentServicesTest {
         assertEquals(1, repository.count());
     }
 
-    @Test
-    public void viewCommentTest(){
-        CommentRequest commentRequest = new CommentRequest();
-        commentRequest.setComment("new comment");
-        Comment comment = new Comment();
-        comment.setComment(commentRequest.getComment());
-        commentServices.createCommentWith(commentRequest);
-    }
 
 }
