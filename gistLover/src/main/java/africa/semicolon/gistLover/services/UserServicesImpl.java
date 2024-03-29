@@ -66,7 +66,8 @@ public class UserServicesImpl implements UserServices {
         List<View> viewList = new ArrayList<>();
         viewRepository.findAll().forEach(view1->{if(view1.getViewer().getUserName().equals(userName))viewList.add(view1);});
         post.setViews(viewList);
-        
+
+
     }
 
 
