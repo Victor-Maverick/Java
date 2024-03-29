@@ -1,8 +1,10 @@
 package africa.semicolon.gistLover.utils;
 
+import africa.semicolon.gistLover.data.model.Post;
 import africa.semicolon.gistLover.data.model.User;
-import africa.semicolon.gistLover.dtos.RegisterRequest;
-import africa.semicolon.gistLover.dtos.RegisterUserResponse;
+import africa.semicolon.gistLover.dtos.request.RegisterRequest;
+import africa.semicolon.gistLover.dtos.response.CreatePostResponse;
+import africa.semicolon.gistLover.dtos.response.RegisterUserResponse;
 
 import java.time.format.DateTimeFormatter;
 
@@ -20,5 +22,13 @@ public class Mapper {
         registerUserResponse.setUsername(savedUser.getUserName());
         registerUserResponse.setDateRegistered(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(savedUser.getDateCreated()));
         return registerUserResponse;
+    }
+
+    public static CreatePostResponse map(Post savedPost){
+        CreatePostResponse postResponse = new CreatePostResponse();
+        postResponse.setTitle(savedPost.getTitle());
+        postResponse.setId(savedPost.getId());
+        postResponse.setDateCreated(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(savedPost.getDateCreated()));
+        return postResponse;
     }
 }

@@ -1,7 +1,10 @@
 package africa.semicolon.gistLover.services;
 
+import africa.semicolon.gistLover.data.model.User;
+import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
-import africa.semicolon.gistLover.dtos.RegisterRequest;
+import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
+import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +21,8 @@ class UserServicesTest {
     private UserServices userServices;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PostRepository posts;
 
     @BeforeEach
     public void setup(){
@@ -80,5 +85,23 @@ class UserServicesTest {
         }
         assertEquals(1, userRepository.count());
     }
+
+    @Test
+    public void viewPostTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
+        CreatePostRequest postRequest = new CreatePostRequest();
+        postRequest.setTitle("title");
+        postRequest.setContent("content content");
+        userServices.createPostWith(postRequest, registerRequest.getUserName());
+        assertEquals(1, posts.count());
+        userServices.viewPost("title", "username");
+        System.out.println(posts.findPostByTitle("title").getViews());
+        assertEquals(1, posts.findPostByTitle("title").getViews().size());
+        }
 
 }

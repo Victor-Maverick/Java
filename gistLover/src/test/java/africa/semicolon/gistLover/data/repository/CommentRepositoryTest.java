@@ -1,7 +1,7 @@
 package africa.semicolon.gistLover.data.repository;
 
 import africa.semicolon.gistLover.data.model.Comment;
-import africa.semicolon.gistLover.dtos.CommentRequest;
+import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

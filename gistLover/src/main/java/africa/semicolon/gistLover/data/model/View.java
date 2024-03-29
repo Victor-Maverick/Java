@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 public class View {
     private String id;
     private User viewer;
-    private LocalDateTime timeOfView;
+    private LocalDateTime timeOfView = LocalDateTime.now();
 
 }

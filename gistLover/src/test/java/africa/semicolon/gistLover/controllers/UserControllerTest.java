@@ -1,7 +1,7 @@
 package africa.semicolon.gistLover.controllers;
 
 import africa.semicolon.gistLover.data.repository.UserRepository;
-import africa.semicolon.gistLover.dtos.RegisterRequest;
+import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.exceptions.GistLoverAppException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

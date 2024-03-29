@@ -1,16 +1,13 @@
 package africa.semicolon.gistLover.controllers;
 
-import africa.semicolon.gistLover.dtos.ApiResponse;
-import africa.semicolon.gistLover.dtos.RegisterRequest;
+import africa.semicolon.gistLover.dtos.response.ApiResponse;
+import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.exceptions.GistLoverAppException;
 import africa.semicolon.gistLover.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
-
-import javax.swing.text.html.parser.Entity;
 
 import static org.springframework.http.HttpStatus.CREATED;
 

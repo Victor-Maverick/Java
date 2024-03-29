@@ -1,7 +1,7 @@
 package africa.semicolon.gistLover.data.repository;
 
 import africa.semicolon.gistLover.data.model.Post;
-import africa.semicolon.gistLover.dtos.CreatePostRequest;
+import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;

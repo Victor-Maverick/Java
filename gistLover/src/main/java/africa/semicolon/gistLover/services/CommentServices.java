@@ -1,6 +1,6 @@
 package africa.semicolon.gistLover.services;
 
-import africa.semicolon.gistLover.dtos.CommentRequest;
+import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import org.springframework.stereotype.Service;
 
 @Service
