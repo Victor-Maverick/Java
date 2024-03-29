@@ -4,15 +4,17 @@ import africa.semicolon.gistLover.data.model.Post;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.dtos.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.EditPostRequest;
+import africa.semicolon.gistLover.dtos.NonExistingPostException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServicesImpl implements PostServices{
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
     public void createPostWith(CreatePostRequest postRequest) {
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
@@ -22,6 +24,9 @@ public class PostServicesImpl implements PostServices{
     }
 
     public void deletePost(String title) {
+        Optional<Post> post = postRepository.findByTitle(title);
+        if (post.isPresent())postRepository.deletePostByTitle(title);
+        else throw new NonExistingPostException("nonexistent post");
 
     }
 

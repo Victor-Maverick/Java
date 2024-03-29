@@ -9,5 +9,5 @@ public interface UserServices {
 
     RegisterUserResponse registerUserWith(RegisterRequest registerRequest);
 
-    void deleteBy(String username);
+    String deleteBy(String username);
 }

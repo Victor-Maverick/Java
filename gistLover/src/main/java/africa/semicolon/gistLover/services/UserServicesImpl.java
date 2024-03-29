@@ -28,10 +28,12 @@ public class UserServicesImpl implements UserServices {
 
     }
 
-    public void deleteBy(String username) {
+
+    public String deleteBy(String username) {
         Optional<User> user = users.findByUserName(username);
-        if(user.isEmpty())throw new NonExistingUserException("non existing user");
-        users.deleteById(user.get().getId());
+        if (user.isPresent()) users.deleteUserByUserName(username);
+        else throw new NonExistingUserException("non existing user");
+        return "delete success";
     }
 
 

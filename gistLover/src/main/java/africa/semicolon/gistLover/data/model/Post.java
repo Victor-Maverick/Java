@@ -1,6 +1,7 @@
 package africa.semicolon.gistLover.data.model;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,9 @@ public class Post {
     private String title;
     private String content;
     private LocalDateTime dateCreated;
+    @DBRef
     private List<View> views;
+    @DBRef
     private List<Comment> comments;
 
 }
