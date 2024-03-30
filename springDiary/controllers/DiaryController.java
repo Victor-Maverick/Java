@@ -9,10 +9,11 @@ import springDiary.dtos.request.LoginRequest;
 import springDiary.dtos.request.RegisterRequest;
 import org.springframework.web.bind.annotation.*;
 import springDiary.services.DiaryServices;
-import springDiary.services.EntryServices;
+
 
 import java.util.List;
 @RestController
+@RequestMapping("/user")
 public class DiaryController {
     @Autowired
     private DiaryServices diaryServices;
@@ -92,10 +93,10 @@ public class DiaryController {
         return diaryServices.findAllEntries().size();
     }
 
-    @DeleteMapping("/delete")
-    public String deleteWith( String id){
+    @DeleteMapping("/delete-entry")
+    public String deleteWith(String title, String author){
         try{
-            diaryServices.deleteEntryBy(id);
+            diaryServices.deleteEntryBy(title, author);
             return "delete successful";
         }
         catch (DiaryAppException e){

@@ -88,8 +88,8 @@ public class DiaryServicesImp implements DiaryServices{
     }
 
     @Override
-    public void deleteEntryBy(String title) {
-        entryServices.deleteWith(title);
+    public void deleteEntryBy(String title, String author) {
+        entryServices.deleteWith(title, author);
     }
 
 

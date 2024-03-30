@@ -29,9 +29,11 @@ public class EntryServicesImp implements EntryServices {
     }
 
     @Override
-    public void deleteWith(String id) {
-        Optional<Entry> entry = entryRepository.findById(id);
-        entry.ifPresent(value -> entryRepository.delete(value));
+    public void deleteWith(String title, String author) {
+        Optional<Entry> entry = entryRepository.findByTitle(title);
+        boolean entryExists = entryRepository.findEntryByAuthor(author);
+        if (entry.isPresent() && entryExists)entryRepository.deleteByTitleAndAuthor(title, author);
+
     }
 
     @Override
