@@ -92,5 +92,11 @@ public class DiaryServicesImp implements DiaryServices{
         entryServices.deleteWith(title, author);
     }
 
+    public void deleteDiaryWith(String username) {
+        Optional<Diary> diary = diaryRepository.findDiaryByUsername(username);
+        if(diary.isPresent())diaryRepository.deleteByUsername(username);
+        else throw new DiaryNotFoundException("no such diary");
+    }
+
 
 }

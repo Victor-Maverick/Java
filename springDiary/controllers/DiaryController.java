@@ -77,6 +77,13 @@ public class DiaryController {
         }
     }
 
+    @DeleteMapping("/delete-entry/{name}")
+    public String deleteDiary(@PathVariable("name") String username){
+        try{
+            diaryServices.deleteDiaryWith(username);
+        }
+    }
+
     @PostMapping("/entry")
     public String addEntryWith(@RequestBody CreateEntryRequest entryRequest) {
         try{
