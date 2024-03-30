@@ -77,7 +77,7 @@ public class DiaryController {
         }
     }
 
-    @DeleteMapping("/delete-entry/{name}")
+    @DeleteMapping("/delete-diary/{name}")
     public String deleteDiary(@PathVariable("name") String username){
         try{
             diaryServices.deleteDiaryWith(username);
