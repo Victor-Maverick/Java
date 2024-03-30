@@ -26,7 +26,7 @@ public class PostServicesImpl implements PostServices{
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
         post.setContent(postRequest.getContent());
-
+        post.setAuthor(users.findUserByUserName(userName));
         var newPost = postRepository.save(post);
         return map(newPost);
     }

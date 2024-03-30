@@ -51,12 +51,6 @@ public class UserServicesImpl implements UserServices {
 
     public void createPostWith(CreatePostRequest postRequest, String userName) {
         postServices.createPostWith(postRequest, userName);
-        Post post = new Post();
-        post.setTitle(postRequest.getTitle());
-        post.setContent(post.getContent());
-        post.setAuthor(users.findUserByUserName(userName));
-        postRepository.save(post);
-
     }
 
     public void viewPost(String title, String userName) {
