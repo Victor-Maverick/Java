@@ -22,10 +22,11 @@ public class PostServicesImpl implements PostServices{
     private PostRepository postRepository;
     @Autowired
     UserRepository users;
-    public CreatePostResponse createPostWith(CreatePostRequest postRequest) {
+    public CreatePostResponse createPostWith(CreatePostRequest postRequest, String userName) {
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
         post.setContent(postRequest.getContent());
+
         var newPost = postRepository.save(post);
         return map(newPost);
     }

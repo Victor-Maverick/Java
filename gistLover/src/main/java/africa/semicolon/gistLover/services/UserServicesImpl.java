@@ -29,7 +29,7 @@ public class UserServicesImpl implements UserServices {
     @Autowired
     PostServices postServices;
     @Autowired
-    ViewRepository viewRepository;
+    ViewRepository views;
 
     public RegisterUserResponse registerUserWith(RegisterRequest registerRequest) {
         registerRequest.setUserName(registerRequest.getUserName().toLowerCase());
@@ -50,12 +50,12 @@ public class UserServicesImpl implements UserServices {
     }
 
     public void createPostWith(CreatePostRequest postRequest, String userName) {
+        postServices.createPostWith(postRequest, userName);
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
         post.setContent(post.getContent());
         post.setAuthor(users.findUserByUserName(userName));
         postRepository.save(post);
-
 
     }
 
@@ -64,7 +64,7 @@ public class UserServicesImpl implements UserServices {
         View view = new View();
         view.setViewer(users.findUserByUserName(userName));
         List<View> viewList = new ArrayList<>();
-        viewRepository.findAll().forEach(view1->{if(view1.getViewer().getUserName().equals(userName))viewList.add(view1);});
+        views.findAll().forEach(view1->{if(view1.getViewer().getUserName().equals(userName))viewList.add(view1);});
         post.setViews(viewList);
 
 

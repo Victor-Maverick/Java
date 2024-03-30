@@ -32,7 +32,7 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest);
+        postServices.createPostWith(postRequest, userName);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
 
     }
@@ -42,7 +42,7 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest);
+        postServices.createPostWith(postRequest, userName);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         postServices.deletePost("title");
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
@@ -53,7 +53,7 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest);
+        postServices.createPostWith(postRequest, userName);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         postServices.deletePost("title");
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
@@ -70,7 +70,7 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        var savedPost = postServices.createPostWith(postRequest);
+        var savedPost = postServices.createPostWith(postRequest, userName);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         EditPostRequest editPostRequest = new EditPostRequest();
         editPostRequest.setTitle("new title");
