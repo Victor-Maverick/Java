@@ -1,8 +1,10 @@
 package africa.semicolon.gistLover.services;
 
 import africa.semicolon.gistLover.data.repository.PostRepository;
+import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.EditPostRequest;
+import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.exceptions.GistLoverAppException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,28 +23,45 @@ public class PostServicesTest {
     private PostServices postServices;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserServices userServices;
+    @Autowired
+    private UserRepository users;
 
     @BeforeEach
     public void collapseAll(){
+        users.deleteAll();
         postRepository.deleteAll();
     }
 
     @Test
     public void createPostWith() {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest, userName);
+        postServices.createPostWith(postRequest, "username");
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
 
     }
 
     @Test
     public void deletePost() {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest, userName);
+        postServices.createPostWith(postRequest, "username");
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         postServices.deletePost("title");
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
@@ -50,10 +69,16 @@ public class PostServicesTest {
 
     @Test
     public void deleteNonExistingPost() {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest, userName);
+        postServices.createPostWith(postRequest, "username");
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         postServices.deletePost("title");
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
@@ -67,10 +92,16 @@ public class PostServicesTest {
 
     @Test
     public void editPost() {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        var savedPost = postServices.createPostWith(postRequest, userName);
+        var savedPost = postServices.createPostWith(postRequest, "username");
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         EditPostRequest editPostRequest = new EditPostRequest();
         editPostRequest.setTitle("new title");
