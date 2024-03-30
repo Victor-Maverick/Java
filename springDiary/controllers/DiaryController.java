@@ -81,6 +81,10 @@ public class DiaryController {
     public String deleteDiary(@PathVariable("name") String username){
         try{
             diaryServices.deleteDiaryWith(username);
+            return "delete success";
+        }
+        catch (DiaryAppException e){
+            return e.getMessage();
         }
     }
 
