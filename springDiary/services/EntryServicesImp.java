@@ -2,6 +2,7 @@ package springDiary.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import springDiary.data.model.Diary;
 import springDiary.exceptions.NonExistingAuthorException;
 import springDiary.data.model.Entry;
 import springDiary.data.repository.EntryRepository;
@@ -30,9 +31,9 @@ public class EntryServicesImp implements EntryServices {
 
     @Override
     public void deleteWith(String title, String author) {
-        Optional<Entry> entry = entryRepository.findByTitle(title);
-        boolean entryExists = entryRepository.findEntryByAuthor(author);
-        if (entry.isPresent() && entryExists)entryRepository.deleteByTitleAndAuthor(title, author);
+        Entry entry = entryRepository.findByTitle(title);
+        boolean authorExists = entry.getAuthor().equalsIgnoreCase(author);
+        if(authorExists) entryRepository.deleteByTitleAndAuthor(title, author);
 
     }
 
