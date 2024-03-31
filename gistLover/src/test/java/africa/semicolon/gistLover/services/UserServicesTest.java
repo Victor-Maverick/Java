@@ -136,4 +136,19 @@ class UserServicesTest {
         assertEquals(0, posts.findPostByTitle("title").getViews().size());
         }
 
+    @Test
+    public void testUserComment(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
+        CreatePostRequest postRequest = new CreatePostRequest();
+        postRequest.setTitle("title");
+        postRequest.setContent("content content");
+        postRequest.setUsername(registerRequest.getUserName());
+        userServices.createPostWith(postRequest);
+        assertEquals(1, posts.count());
+    }
 }
