@@ -6,6 +6,7 @@ import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
+import africa.semicolon.gistLover.exceptions.NonExistingPostException;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,7 +107,6 @@ class UserServicesTest {
         viewRequest.setUsername("username");
         viewRequest.setTitle("title");
         userServices.viewPost(viewRequest);
-        System.out.println("posts "+posts.findPostByTitle("title"));
         assertEquals(1, posts.findPostByTitle("title").getViews().size());
         }
 
@@ -126,10 +126,14 @@ class UserServicesTest {
         assertEquals(1, posts.count());
         ViewRequest viewRequest = new ViewRequest();
         viewRequest.setUsername("username");
-        viewRequest.setTitle("title");
-        userServices.viewPost(viewRequest);
-        System.out.println("posts "+posts.findPostByTitle("title"));
-        assertEquals(1, posts.findPostByTitle("title").getViews().size());
+        viewRequest.setTitle("wrong title");
+        try {
+            userServices.viewPost(viewRequest);
+        }
+        catch (NonExistingPostException e){
+            assertEquals(e.getMessage(), "nonexistent post");
+        }
+        assertEquals(0, posts.findPostByTitle("title").getViews().size());
         }
 
 }
