@@ -1,7 +1,9 @@
 package africa.semicolon.gistLover.services;
 
+import africa.semicolon.gistLover.data.model.Comment;
 import africa.semicolon.gistLover.data.model.Post;
 import africa.semicolon.gistLover.data.model.View;
+import africa.semicolon.gistLover.data.repository.CommentRepository;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
@@ -28,6 +30,8 @@ public class PostServicesImpl implements PostServices{
     UserRepository users;
     @Autowired
     ViewRepository views;
+    @Autowired
+    CommentRepository comments;
 
     public CreatePostResponse createPostWith(CreatePostRequest postRequest) {
         Post post = new Post();
@@ -80,7 +84,25 @@ public class PostServicesImpl implements PostServices{
     }
 
     public void commentWith(CommentRequest commentRequest) {
+        Comment comment = new Comment();
+        var user = users.findUserByUserName(commentRequest.getCommenterName());
+        comment.setComment(commentRequest.getComment());
+        comment.setCommenter(user);
+        comments.save(comment);
+        comment = addCommentToPost(commentRequest);
 
+    }
+
+    private Comment addCommentToPost(CommentRequest commentRequest) {
+        Comment comment;
+        comment = comments.findByCommenter(users.findUserByUserName(commentRequest.getCommenterName()));
+        Post post = posts.findPostByTitle(commentRequest.getTitle());
+        if(post == null)throw new NonExistingPostException("nonexistent post");
+        List<Comment> commentList = post.getComments();
+        commentList.add(comment);
+        post.setComments(commentList);
+        posts.save(post);
+        return comment;
     }
 
     public void addView(Post post, View view) {
