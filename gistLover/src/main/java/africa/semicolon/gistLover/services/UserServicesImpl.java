@@ -4,6 +4,7 @@ import africa.semicolon.gistLover.data.model.User;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
+import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
@@ -53,6 +54,10 @@ public class UserServicesImpl implements UserServices {
     public void viewPost(ViewRequest viewRequest) {
         postServices.viewPost(viewRequest);
 
+    }
+
+    public void commentWith(CommentRequest commentRequest) {
+        
     }
 
 

@@ -3,6 +3,7 @@ package africa.semicolon.gistLover.services;
 import africa.semicolon.gistLover.data.model.User;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
+import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
@@ -150,5 +151,8 @@ class UserServicesTest {
         postRequest.setUsername(registerRequest.getUserName());
         userServices.createPostWith(postRequest);
         assertEquals(1, posts.count());
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setComment("my Comment");
+        userServices.commentWith(commentRequest);
     }
 }
