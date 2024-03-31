@@ -152,7 +152,10 @@ class UserServicesTest {
         userServices.createPostWith(postRequest);
         assertEquals(1, posts.count());
         CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setTitle("title");
+        commentRequest.setCommenterName("username");
         commentRequest.setComment("my Comment");
         userServices.commentWith(commentRequest);
+        assertEquals(1, posts.findPostByTitle("title").getComments().size());
     }
 }
