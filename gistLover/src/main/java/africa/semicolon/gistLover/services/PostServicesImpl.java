@@ -65,7 +65,7 @@ public class PostServicesImpl implements PostServices{
         View view;
         view = views.findByViewer(users.findUserByUserName(viewRequest.getUsername()));
         Post post = posts.findPostByTitle(viewRequest.getTitle());
-        if(post.getId() == null)throw new NonExistingPostException("nonexistent post");
+        if(post == null)throw new NonExistingPostException("nonexistent post");
         List<View> viewList = post.getViews();
         viewList.add(view);
         post.setViews(viewList);
