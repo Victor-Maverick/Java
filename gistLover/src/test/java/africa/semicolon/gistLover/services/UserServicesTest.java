@@ -158,4 +158,27 @@ class UserServicesTest {
         userServices.commentWith(commentRequest);
         assertEquals(1, posts.findPostByTitle("title").getComments().size());
     }
+
+    @Test
+    public void NonExistentUserCommentTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
+        CreatePostRequest postRequest = new CreatePostRequest();
+        postRequest.setTitle("title");
+        postRequest.setContent("content content");
+        postRequest.setUsername(registerRequest.getUserName());
+        userServices.createPostWith(postRequest);
+        assertEquals(1, posts.count());
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setTitle("title");
+        commentRequest.setCommenterName("wrong username");
+        commentRequest.setComment("my Comment");
+        userServices.commentWith(commentRequest);
+        assertEquals(0, posts.findPostByTitle("title").getComments().size());
+    }
+
 }
