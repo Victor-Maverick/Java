@@ -11,6 +11,7 @@ import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.EditPostRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
+import africa.semicolon.gistLover.dtos.response.CommentResponse;
 import africa.semicolon.gistLover.dtos.response.CreatePostResponse;
 import africa.semicolon.gistLover.dtos.response.ViewResponse;
 import africa.semicolon.gistLover.exceptions.NonExistingPostException;
@@ -83,14 +84,14 @@ public class PostServicesImpl implements PostServices{
         return posts.findAll();
     }
 
-    public void commentWith(CommentRequest commentRequest) {
+    public CommentResponse commentWith(CommentRequest commentRequest) {
         Comment comment = new Comment();
         var user = users.findUserByUserName(commentRequest.getCommenterName());
         comment.setComment(commentRequest.getComment());
         comment.setCommenter(user);
         comments.save(comment);
         comment = addCommentToPost(commentRequest);
-
+         return map(comment);
     }
 
     private Comment addCommentToPost(CommentRequest commentRequest) {

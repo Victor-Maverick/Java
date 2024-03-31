@@ -5,6 +5,7 @@ import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.EditPostRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
+import africa.semicolon.gistLover.dtos.response.CommentResponse;
 import africa.semicolon.gistLover.dtos.response.CreatePostResponse;
 import africa.semicolon.gistLover.dtos.response.ViewResponse;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,5 @@ public interface PostServices {
     ViewResponse viewPost(ViewRequest ViewRequest);
     List<Post> findAllPosts();
 
-    void commentWith(CommentRequest commentRequest);
+    CommentResponse commentWith(CommentRequest commentRequest);
 }

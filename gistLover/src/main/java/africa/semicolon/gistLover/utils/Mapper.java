@@ -1,13 +1,16 @@
 package africa.semicolon.gistLover.utils;
 
+import africa.semicolon.gistLover.data.model.Comment;
 import africa.semicolon.gistLover.data.model.Post;
 import africa.semicolon.gistLover.data.model.User;
 import africa.semicolon.gistLover.data.model.View;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
+import africa.semicolon.gistLover.dtos.response.CommentResponse;
 import africa.semicolon.gistLover.dtos.response.CreatePostResponse;
 import africa.semicolon.gistLover.dtos.response.RegisterUserResponse;
 import africa.semicolon.gistLover.dtos.response.ViewResponse;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Mapper {
@@ -40,5 +43,13 @@ public class Mapper {
         viewResponse.setViewer(view.getViewer());
         viewResponse.setDateViewed(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(view.getTimeOfView()));
         return viewResponse;
+    }
+
+    public static CommentResponse map(Comment comment){
+        CommentResponse commentResponse = new CommentResponse();
+        commentResponse.setId(comment.getId());
+        commentResponse.setContent(comment.getComment());
+        commentResponse.setDateCreated(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(comment.getTimeOfComment()));
+        return commentResponse;
     }
 }
