@@ -108,4 +108,25 @@ class UserServicesTest {
         assertEquals(1, posts.findPostByTitle("title").getViews().size());
         }
 
+    @Test
+    public void viewPostWithNonExistingTitle_throwsExceptionTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstName("firstname");
+        registerRequest.setLastName("lastname");
+        registerRequest.setUserName("username");
+        registerRequest.setPassword("password");
+        userServices.registerUserWith(registerRequest);
+        CreatePostRequest postRequest = new CreatePostRequest();
+        postRequest.setTitle("title");
+        postRequest.setContent("content content");
+        userServices.createPostWith(postRequest, registerRequest.getUserName());
+        assertEquals(1, posts.count());
+        ViewRequest viewRequest = new ViewRequest();
+        viewRequest.setUsername("username");
+        viewRequest.setTitle("title");
+        userServices.viewPost(viewRequest);
+        System.out.println("posts "+posts.findPostByTitle("title"));
+        assertEquals(1, posts.findPostByTitle("title").getViews().size());
+        }
+
 }

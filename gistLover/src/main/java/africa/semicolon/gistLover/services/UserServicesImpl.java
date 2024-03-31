@@ -46,8 +46,8 @@ public class UserServicesImpl implements UserServices {
         return "delete success";
     }
 
-    public void createPostWith(CreatePostRequest postRequest, String userName) {
-        postServices.createPostWith(postRequest, userName);
+    public void createPostWith(CreatePostRequest postRequest) {
+        postServices.createPostWith(postRequest);
     }
 
     public void viewPost(ViewRequest viewRequest) {

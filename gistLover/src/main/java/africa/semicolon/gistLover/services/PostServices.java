@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public interface PostServices {
-    CreatePostResponse createPostWith(CreatePostRequest postRequest, String userName);
+    CreatePostResponse createPostWith(CreatePostRequest postRequest);
     void deletePost(String title);
     void editPost(String title, EditPostRequest editPostRequest);
     ViewResponse viewPost(ViewRequest ViewRequest);

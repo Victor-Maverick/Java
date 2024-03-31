@@ -28,11 +28,11 @@ public class PostServicesImpl implements PostServices{
     @Autowired
     ViewRepository views;
 
-    public CreatePostResponse createPostWith(CreatePostRequest postRequest, String userName) {
+    public CreatePostResponse createPostWith(CreatePostRequest postRequest) {
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
         post.setContent(postRequest.getContent());
-        post.setAuthor(users.findUserByUserName(userName));
+        post.setAuthor(users.findUserByUserName(postRequest.getUsername()));
         var newPost = posts.save(post);
         return map(newPost);
     }

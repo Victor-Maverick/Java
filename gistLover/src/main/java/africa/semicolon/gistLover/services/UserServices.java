@@ -13,7 +13,7 @@ public interface UserServices {
 
     String deleteBy(String username);
 
-    void createPostWith(CreatePostRequest postRequest, String userName);
+    void createPostWith(CreatePostRequest postRequest);
 
     void viewPost(ViewRequest viewRequest);
 }
