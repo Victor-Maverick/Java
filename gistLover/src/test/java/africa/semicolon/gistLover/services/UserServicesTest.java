@@ -105,7 +105,7 @@ class UserServicesTest {
         viewRequest.setTitle("title");
         userServices.viewPost(viewRequest);
         System.out.println("posts "+posts.findPostByTitle("title"));
-        assertEquals(1, posts.findPostByTitle("title").getViews());
+        assertEquals(1, posts.findPostByTitle("title").getViews().size());
         }
 
 }
