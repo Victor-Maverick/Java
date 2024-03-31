@@ -11,5 +11,5 @@ public class Comment {
     private String id;
     private String comment;
     private User commenter;
-    private LocalDateTime timeOfComment;
+    private LocalDateTime timeOfComment = LocalDateTime.now();
 }
