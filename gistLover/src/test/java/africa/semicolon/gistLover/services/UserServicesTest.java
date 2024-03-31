@@ -98,7 +98,8 @@ class UserServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        userServices.createPostWith(postRequest, registerRequest.getUserName());
+        postRequest.setUsername(registerRequest.getUserName());
+        userServices.createPostWith(postRequest);
         assertEquals(1, posts.count());
         ViewRequest viewRequest = new ViewRequest();
         viewRequest.setUsername("username");
@@ -119,7 +120,8 @@ class UserServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        userServices.createPostWith(postRequest, registerRequest.getUserName());
+        postRequest.setUsername(registerRequest.getUserName());
+        userServices.createPostWith(postRequest);
         assertEquals(1, posts.count());
         ViewRequest viewRequest = new ViewRequest();
         viewRequest.setUsername("username");
