@@ -27,6 +27,7 @@ class UserServicesTest {
 
     @BeforeEach
     public void setup(){
+        posts.deleteAll();
         userRepository.deleteAll();
     }
 
