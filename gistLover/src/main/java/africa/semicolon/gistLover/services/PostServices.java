@@ -1,6 +1,7 @@
 package africa.semicolon.gistLover.services;
 
 import africa.semicolon.gistLover.data.model.Post;
+import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.EditPostRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
@@ -18,4 +19,5 @@ public interface PostServices {
     ViewResponse viewPost(ViewRequest ViewRequest);
     List<Post> findAllPosts();
 
+    void commentWith(CommentRequest commentRequest);
 }

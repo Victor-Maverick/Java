@@ -5,6 +5,7 @@ import africa.semicolon.gistLover.data.model.View;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
+import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.EditPostRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
@@ -76,6 +77,10 @@ public class PostServicesImpl implements PostServices{
 
     public List<Post> findAllPosts() {
         return posts.findAll();
+    }
+
+    public void commentWith(CommentRequest commentRequest) {
+        
     }
 
     public void addView(Post post, View view) {

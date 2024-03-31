@@ -57,7 +57,7 @@ public class UserServicesImpl implements UserServices {
     }
 
     public void commentWith(CommentRequest commentRequest) {
-        
+        postServices.commentWith(commentRequest);
     }
 
 
