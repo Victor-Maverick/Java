@@ -13,7 +13,7 @@ public interface PostServices {
     CreatePostResponse createPostWith(CreatePostRequest postRequest, String userName);
     void deletePost(String title);
     void editPost(String title, EditPostRequest editPostRequest);
-    Post viewPost(String title, String username);
+    void viewPost(String title, String username);
     List<Post> findAllPosts();
 
 }

@@ -2,6 +2,7 @@ package africa.semicolon.gistLover.data.model;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,8 +21,7 @@ public class Post {
     @DBRef
     private List<View> views = new ArrayList<>();
     @DBRef
-    private List<Comment> comments;
-
+    private List<Comment> comments = new ArrayList<>();
 
 
 }

@@ -99,9 +99,12 @@ class UserServicesTest {
         postRequest.setContent("content content");
         userServices.createPostWith(postRequest, registerRequest.getUserName());
         assertEquals(1, posts.count());
-        userServices.viewPost("title", "username");
         System.out.println(posts.findPostByTitle("title").getViews());
-        assertEquals(1, posts.findPostByTitle("title").getViews().size());
+        System.out.println(posts.findPostByTitle("title"));
+        System.out.println(posts.findAll());
+        userServices.viewPost("title", "username");
+        System.out.println("posts "+posts.findPostByTitle("title"));
+        assertEquals(1, posts.findPostByTitle("title").getViews());
         }
 
 }

@@ -1,8 +1,6 @@
 package africa.semicolon.gistLover.services;
 
-import africa.semicolon.gistLover.data.model.Post;
 import africa.semicolon.gistLover.data.model.User;
-import africa.semicolon.gistLover.data.model.View;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
@@ -14,8 +12,6 @@ import africa.semicolon.gistLover.exceptions.UserExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static africa.semicolon.gistLover.utils.Mapper.map;
@@ -54,13 +50,7 @@ public class UserServicesImpl implements UserServices {
     }
 
     public void viewPost(String title, String userName) {
-        Post post = postRepository.findPostByTitle(title);
-        View view = new View();
-        view.setViewer(users.findUserByUserName(userName));
-        List<View> viewList = new ArrayList<>();
-        views.findAll().forEach(view1->{if(view1.getViewer().getUserName().equals(userName))viewList.add(view1);});
-        post.setViews(viewList);
-
+        postServices.viewPost(title, userName);
 
     }
 
