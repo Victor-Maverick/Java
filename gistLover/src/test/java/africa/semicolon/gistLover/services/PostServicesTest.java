@@ -62,7 +62,8 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        postServices.createPostWith(postRequest, "username");
+        postRequest.setUsername(registerRequest.getUserName());
+        postServices.createPostWith(postRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         postServices.deletePost("title");
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
