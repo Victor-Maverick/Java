@@ -36,7 +36,9 @@ public class Mapper {
 
     public static ViewResponse map(View view){
         ViewResponse viewResponse = new ViewResponse();
-        
+        viewResponse.setId(view.getId());
+        viewResponse.setViewer(view.getViewer());
         viewResponse.setDateViewed(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(view.getTimeOfView()));
+        return viewResponse;
     }
 }

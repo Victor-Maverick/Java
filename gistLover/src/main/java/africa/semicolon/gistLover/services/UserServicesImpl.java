@@ -6,6 +6,7 @@ import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
+import africa.semicolon.gistLover.dtos.request.ViewRequest;
 import africa.semicolon.gistLover.dtos.response.RegisterUserResponse;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
@@ -49,8 +50,8 @@ public class UserServicesImpl implements UserServices {
         postServices.createPostWith(postRequest, userName);
     }
 
-    public void viewPost(String title, String userName) {
-        postServices.viewPost(title, userName);
+    public void viewPost(ViewRequest viewRequest) {
+        postServices.viewPost(viewRequest);
 
     }
 
