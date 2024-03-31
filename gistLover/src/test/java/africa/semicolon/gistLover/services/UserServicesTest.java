@@ -5,6 +5,7 @@ import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
+import africa.semicolon.gistLover.dtos.request.ViewRequest;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,10 +100,10 @@ class UserServicesTest {
         postRequest.setContent("content content");
         userServices.createPostWith(postRequest, registerRequest.getUserName());
         assertEquals(1, posts.count());
-        System.out.println(posts.findPostByTitle("title").getViews());
-        System.out.println(posts.findPostByTitle("title"));
-        System.out.println(posts.findAll());
-        userServices.viewPost("title", "username");
+        ViewRequest viewRequest = new ViewRequest();
+        viewRequest.setUsername("username");
+        viewRequest.setTitle("title");
+        userServices.viewPost(viewRequest);
         System.out.println("posts "+posts.findPostByTitle("title"));
         assertEquals(1, posts.findPostByTitle("title").getViews());
         }

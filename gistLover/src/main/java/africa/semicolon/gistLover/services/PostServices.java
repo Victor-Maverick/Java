@@ -15,7 +15,7 @@ public interface PostServices {
     CreatePostResponse createPostWith(CreatePostRequest postRequest, String userName);
     void deletePost(String title);
     void editPost(String title, EditPostRequest editPostRequest);
-    ViewResponse viewPost(ViewRequest ViewRequest viewRequest);
+    ViewResponse viewPost(ViewRequest ViewRequest);
     List<Post> findAllPosts();
 
 }
