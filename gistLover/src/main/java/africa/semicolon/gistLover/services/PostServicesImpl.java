@@ -15,6 +15,7 @@ import africa.semicolon.gistLover.dtos.response.CommentResponse;
 import africa.semicolon.gistLover.dtos.response.CreatePostResponse;
 import africa.semicolon.gistLover.dtos.response.ViewResponse;
 import africa.semicolon.gistLover.exceptions.NonExistingPostException;
+import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,7 @@ public class PostServicesImpl implements PostServices{
     public CommentResponse commentWith(CommentRequest commentRequest) {
         Comment comment = new Comment();
         var user = users.findUserByUserName(commentRequest.getCommenterName());
+        if (user == null)throw new NonExistingUserException("register first");
         comment.setComment(commentRequest.getComment());
         comment.setCommenter(user);
         comments.save(comment);
@@ -106,8 +108,5 @@ public class PostServicesImpl implements PostServices{
         return comment;
     }
 
-    public void addView(Post post, View view) {
-        List<View> views = post.getViews();
-        views.add(view);
-    }
+
 }

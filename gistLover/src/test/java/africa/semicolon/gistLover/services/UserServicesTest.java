@@ -7,6 +7,7 @@ import africa.semicolon.gistLover.dtos.request.CommentRequest;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.dtos.request.ViewRequest;
+import africa.semicolon.gistLover.exceptions.GistLoverAppException;
 import africa.semicolon.gistLover.exceptions.NonExistingPostException;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
@@ -177,7 +178,12 @@ class UserServicesTest {
         commentRequest.setTitle("title");
         commentRequest.setCommenterName("wrong username");
         commentRequest.setComment("my Comment");
-        userServices.commentWith(commentRequest);
+        try {
+            userServices.commentWith(commentRequest);
+        }
+        catch (GistLoverAppException e){
+            assertEquals(e.getMessage(), "register first");
+        }
         assertEquals(0, posts.findPostByTitle("title").getComments().size());
     }
 
