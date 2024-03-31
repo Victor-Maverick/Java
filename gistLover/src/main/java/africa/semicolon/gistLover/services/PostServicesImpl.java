@@ -46,7 +46,9 @@ public class PostServicesImpl implements PostServices{
 
     public void deletePost(String title) {
         Optional<Post> post = posts.findByTitle(title);
+        Post post1 = posts.findPostByTitle(title);
         if (post.isPresent()) posts.deletePostByTitle(title);
+
         else throw new NonExistingPostException("nonexistent post");
 
     }
