@@ -78,6 +78,7 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
+        postRequest.setUsername(registerRequest.getUserName());
         postServices.createPostWith(postRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         postServices.deletePost("title");
@@ -101,7 +102,8 @@ public class PostServicesTest {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setTitle("title");
         postRequest.setContent("content content");
-        var savedPost = postServices.createPostWith(postRequest, "username");
+        postRequest.setUsername("username");
+        var savedPost = postServices.createPostWith(postRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
         EditPostRequest editPostRequest = new EditPostRequest();
         editPostRequest.setTitle("new title");
