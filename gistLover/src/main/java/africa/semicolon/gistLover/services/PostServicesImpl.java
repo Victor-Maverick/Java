@@ -92,7 +92,7 @@ public class PostServicesImpl implements PostServices{
         if (user == null)throw new NonExistingUserException("register first");
         comment.setComment(commentRequest.getComment());
         comment.setCommenter(user);
-        //comments.save(comment);
+        comments.save(comment);
         comment = addCommentToPost(commentRequest);
          return map(comment);
     }
@@ -104,9 +104,7 @@ public class PostServicesImpl implements PostServices{
         List<Comment> commentList = post.getComments();
         commentList.remove(comment);
         post.setComments(commentList);
-        //comments.deleteById(comment.getId());
-
-
+        comments.deleteById(comment.getId());
         posts.save(post);
 
     }
