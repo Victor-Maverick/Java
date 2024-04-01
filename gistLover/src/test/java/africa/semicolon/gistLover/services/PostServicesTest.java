@@ -3,6 +3,7 @@ package africa.semicolon.gistLover.services;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
+import africa.semicolon.gistLover.dtos.request.DeletePostRequest;
 import africa.semicolon.gistLover.dtos.request.EditPostRequest;
 import africa.semicolon.gistLover.dtos.request.RegisterRequest;
 import africa.semicolon.gistLover.exceptions.GistLoverAppException;
@@ -65,7 +66,11 @@ public class PostServicesTest {
         postRequest.setUsername(registerRequest.getUserName());
         postServices.createPostWith(postRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
-        postServices.deletePost("title");
+        DeletePostRequest deleteRequest = new DeletePostRequest();
+        deleteRequest.setUsername("username");
+        deleteRequest.setPassword("password");
+        deleteRequest.setTitle("title");
+        postServices.deletePost(deleteRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
     }
 
@@ -83,10 +88,14 @@ public class PostServicesTest {
         postRequest.setUsername(registerRequest.getUserName());
         postServices.createPostWith(postRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(1L)));
-        postServices.deletePost("title");
+        DeletePostRequest deleteRequest = new DeletePostRequest();
+        deleteRequest.setUsername("username");
+        deleteRequest.setPassword("password");
+        deleteRequest.setTitle("title");
+        postServices.deletePost(deleteRequest);
         assertThat(postRepository.count(), Matchers.is(equalTo(0L)));
         try{
-            postServices.deletePost("title");
+            postServices.deletePost(deleteRequest);
         }
         catch (GistLoverAppException e){
             assertEquals(e.getMessage(), "nonexistent post");

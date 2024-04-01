@@ -4,13 +4,12 @@ import africa.semicolon.gistLover.data.model.User;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
-import africa.semicolon.gistLover.dtos.request.CommentRequest;
-import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
-import africa.semicolon.gistLover.dtos.request.RegisterRequest;
-import africa.semicolon.gistLover.dtos.request.ViewRequest;
+import africa.semicolon.gistLover.dtos.request.*;
 import africa.semicolon.gistLover.dtos.response.RegisterUserResponse;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
 import africa.semicolon.gistLover.exceptions.UserExistsException;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +18,15 @@ import java.util.Optional;
 import static africa.semicolon.gistLover.utils.Mapper.map;
 
 @Service
+@RequiredArgsConstructor
 public class UserServicesImpl implements UserServices {
-    @Autowired
-    private UserRepository users;
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    PostServices postServices;
-    @Autowired
-    ViewRepository views;
+    private final UserRepository users;
+
+    private final PostRepository postRepository;
+
+    private final PostServices postServices;
+
+    private final ViewRepository views;
 
     public RegisterUserResponse registerUserWith(RegisterRequest registerRequest) {
         registerRequest.setUserName(registerRequest.getUserName().toLowerCase());
@@ -58,6 +57,14 @@ public class UserServicesImpl implements UserServices {
 
     public void commentWith(CommentRequest commentRequest) {
         postServices.commentWith(commentRequest);
+    }
+
+    public void deletePost(DeletePostRequest deleteRequest) {
+        postServices.deletePost(deleteRequest);
+    }
+
+    public void deleteComment(DeleteCommentRequest deleteCommentRequest) {
+        postServices.deleteComment(deleteCommentRequest);
     }
 
 

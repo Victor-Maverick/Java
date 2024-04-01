@@ -7,33 +7,32 @@ import africa.semicolon.gistLover.data.repository.CommentRepository;
 import africa.semicolon.gistLover.data.repository.PostRepository;
 import africa.semicolon.gistLover.data.repository.UserRepository;
 import africa.semicolon.gistLover.data.repository.ViewRepository;
-import africa.semicolon.gistLover.dtos.request.CommentRequest;
-import africa.semicolon.gistLover.dtos.request.CreatePostRequest;
-import africa.semicolon.gistLover.dtos.request.EditPostRequest;
-import africa.semicolon.gistLover.dtos.request.ViewRequest;
+import africa.semicolon.gistLover.dtos.request.*;
 import africa.semicolon.gistLover.dtos.response.CommentResponse;
 import africa.semicolon.gistLover.dtos.response.CreatePostResponse;
 import africa.semicolon.gistLover.dtos.response.ViewResponse;
+import africa.semicolon.gistLover.exceptions.IncorrectPasswordException;
 import africa.semicolon.gistLover.exceptions.NonExistingPostException;
 import africa.semicolon.gistLover.exceptions.NonExistingUserException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static africa.semicolon.gistLover.utils.Mapper.map;
 
 @Service
+@RequiredArgsConstructor
 public class PostServicesImpl implements PostServices{
-    @Autowired
-    private PostRepository posts;
-    @Autowired
-    UserRepository users;
-    @Autowired
-    ViewRepository views;
-    @Autowired
-    CommentRepository comments;
+
+    private final PostRepository posts;
+
+    private final UserRepository users;
+
+    private final ViewRepository views;
+
+    private final CommentRepository comments;
 
     public CreatePostResponse createPostWith(CreatePostRequest postRequest) {
         Post post = new Post();
@@ -44,13 +43,13 @@ public class PostServicesImpl implements PostServices{
         return map(newPost);
     }
 
-    public void deletePost(String title) {
-        Optional<Post> post = posts.findByTitle(title);
-        Post post1 = posts.findPostByTitle(title);
-        if (post.isPresent()) posts.deletePostByTitle(title);
-
-        else throw new NonExistingPostException("nonexistent post");
-
+    public void deletePost(DeletePostRequest deletePostRequest) {
+        Post post = posts.findPostByTitle(deletePostRequest.getTitle());
+        if (post ==null)throw new NonExistingPostException("nonexistent post");
+        var user = users.findUserByUserName(deletePostRequest.getUsername());
+        if (!user.getPassword().equalsIgnoreCase(deletePostRequest.getPassword()))
+            throw new IncorrectPasswordException("not your post");
+        posts.delete(post);
     }
 
     public void editPost(String title, EditPostRequest editPostRequest) {
@@ -98,9 +97,20 @@ public class PostServicesImpl implements PostServices{
          return map(comment);
     }
 
+    public void deleteComment(DeleteCommentRequest deleteCommentRequest) {
+        var user = users.findUserByUserName(deleteCommentRequest.getUserName());
+        var post = posts.findPostByTitle(deleteCommentRequest.getTitle());
+        Comment comment = comments.findByCommenter(user);
+        List<Comment> commentList = post.getComments();
+        comments.deleteById(comment.getId());
+        commentList.remove(comment);
+        post.setComments(commentList);
+        posts.save(post);
+
+    }
+
     private Comment addCommentToPost(CommentRequest commentRequest) {
-        Comment comment;
-        comment = comments.findByCommenter(users.findUserByUserName(commentRequest.getCommenterName()));
+        Comment comment = comments.findByCommenter(users.findUserByUserName(commentRequest.getCommenterName()));
         Post post = posts.findPostByTitle(commentRequest.getTitle());
         if(post == null)throw new NonExistingPostException("nonexistent post");
         List<Comment> commentList = post.getComments();
