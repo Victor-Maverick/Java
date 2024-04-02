@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Setter
 @Getter
@@ -24,5 +26,6 @@ public class Book {
     private String author;
     private String isbn;
     private Integer quantity;
+    private LocalDateTime dateAdded = LocalDateTime.now();
 
 }
