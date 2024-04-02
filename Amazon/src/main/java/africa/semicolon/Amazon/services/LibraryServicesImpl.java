@@ -1,5 +1,7 @@
 package africa.semicolon.Amazon.services;
 
+import africa.semicolon.Amazon.data.model.Book;
+import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
@@ -28,8 +30,7 @@ public class LibraryServicesImpl implements LibraryServices{
     }
 
     @Override
-    public BorrowResponse requestForBookWith(BorrowRequest borrowRequest) {
-        
-
+    public Report requestForBookWith(BorrowRequest borrowRequest) {
+        return readerSerVices.requestBookWith(borrowRequest);
     }
 }

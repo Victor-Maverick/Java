@@ -23,6 +23,7 @@ public class Book {
     @GeneratedValue
     private Integer id;
     private String title;
+    private boolean isReserved;
     private String author;
     private Integer isbn;
     private Integer quantity;
