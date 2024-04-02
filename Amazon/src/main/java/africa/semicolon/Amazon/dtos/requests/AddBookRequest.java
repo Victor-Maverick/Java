@@ -8,6 +8,6 @@ import lombok.Setter;
 public class AddBookRequest {
     private String bookTitle;
     private String author;
-    private String isbn;
+    private Integer isbn;
 
 }

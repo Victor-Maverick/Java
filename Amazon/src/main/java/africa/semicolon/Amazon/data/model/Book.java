@@ -24,7 +24,7 @@ public class Book {
     private Integer id;
     private String title;
     private String author;
-    private String isbn;
+    private Integer isbn;
     private Integer quantity;
     private LocalDateTime dateAdded = LocalDateTime.now();
 

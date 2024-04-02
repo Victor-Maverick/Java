@@ -9,6 +9,6 @@ public class AddBookResponse {
     private Integer id;
     private String title;
     private String author;
-    private String isbn;
+    private Integer isbn;
     private String dateAdded;
 }
