@@ -4,6 +4,7 @@ import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
+import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,6 +92,17 @@ public class LibraryServicesTest {
             assertEquals(e.getMessage(), "Reader exists with that username");
         }
         assertEquals(1, readers.count());
+    }
+
+    @Test
+    public void setBookRequestTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        libraryServices.addBookWith(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        libraryServices.requestForBookWith(borrowRequest);
     }
 
 }
