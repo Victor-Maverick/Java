@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -16,8 +18,10 @@ import lombok.Setter;
 public class Reader {
     @Id
     @GeneratedValue
-    private String id;
-    private String name;
+    private Integer id;
+    private String username;
+    private String password;
     private String address;
     private String phoneNumber;
+    private LocalDateTime dateRegistered = LocalDateTime.now();
 }

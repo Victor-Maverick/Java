@@ -2,7 +2,9 @@ package africa.semicolon.Amazon.services;
 
 import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.repository.Books;
+import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
+import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +19,12 @@ public class LibraryServicesTest {
     LibraryServices libraryServices;
     @Autowired
     private Books books;
+    @Autowired
+    private Readers readers;
 
     @BeforeEach
     public void setup(){
+        readers.deleteAll();
         books.deleteAll();
     }
 
@@ -54,10 +59,38 @@ public class LibraryServicesTest {
     }
 
     @Test
-    public void readerRequestBookTest(){
+    public void registerReaderTest(){
         CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        assertEquals(1, readers.count());
 
-        Reader reader = new Reader();
+    }
+
+    @Test
+    public void registerTwoSameReadersTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        assertEquals(1, readers.count());
+        CreateReaderRequest readerRequest2 = new CreateReaderRequest();
+        readerRequest2.setUsername("username");
+        readerRequest2.setPassword("password");
+        readerRequest2.setAddress("semicolon Sabo");
+        readerRequest2.setPhoneNumber("08148624877");
+        try {
+            libraryServices.registerReaderWith(readerRequest2);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "Reader exists with that username");
+        }
+        assertEquals(1, readers.count());
     }
 
 }
