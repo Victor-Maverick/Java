@@ -100,9 +100,12 @@ public class LibraryServicesTest {
         addBookRequest.setBookTitle("my book");
         addBookRequest.setAuthor("victor");
         addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
         libraryServices.addBookWith(addBookRequest);
         BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
         libraryServices.requestForBookWith(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
     }
 
 }

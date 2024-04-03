@@ -1,7 +1,6 @@
 package africa.semicolon.Amazon.services;
 
 import africa.semicolon.Amazon.data.model.Reader;
-import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
@@ -30,8 +29,8 @@ public class ReaderServiceImpl implements ReaderSerVices {
     }
 
     @Override
-    public Report requestBookWith(BorrowRequest borrowRequest) {
-        return bookServices.requestBookWith(borrowRequest);
+    public void requestBookWith(BorrowRequest borrowRequest) {
+        bookServices.requestBookWith(borrowRequest);
     }
 
     private boolean isUsernameExisting(CreateReaderRequest readerRequest){

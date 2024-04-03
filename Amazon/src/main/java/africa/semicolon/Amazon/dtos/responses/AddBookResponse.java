@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AddBookResponse {
-    private Integer id;
+    private String id;
     private String title;
     private String author;
     private Integer isbn;
