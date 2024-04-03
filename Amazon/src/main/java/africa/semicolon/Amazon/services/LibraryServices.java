@@ -5,7 +5,7 @@ import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
-import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
+import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +13,7 @@ public interface LibraryServices {
 
     AddBookResponse addBookWith(AddBookRequest addBookRequest);
 
-    RegisterReaderResponse registerReaderWith(CreateReaderRequest readerRequest);
+    RegisterResponse registerReaderWith(CreateReaderRequest readerRequest);
 
     Report requestForBookWith(BorrowRequest borrowRequest);
 
@@ -22,4 +22,6 @@ public interface LibraryServices {
     LoginResponse login(LoginRequest loginRequest);
 
     LogoutResponse readerLogout(LogoutRequest logoutRequest);
+
+    RegisterResponse registerLibrarianWith(CreateReaderRequest readerRequest);
 }

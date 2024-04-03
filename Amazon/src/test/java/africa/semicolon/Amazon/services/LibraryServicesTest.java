@@ -1,6 +1,7 @@
 package africa.semicolon.Amazon.services;
 import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.repository.Books;
+import africa.semicolon.Amazon.data.repository.Librarians;
 import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
@@ -19,6 +20,8 @@ public class LibraryServicesTest {
     private Books books;
     @Autowired
     private Readers readers;
+    @Autowired
+    private Librarians librarians;
 
     @BeforeEach
     public void setup(){
@@ -26,6 +29,16 @@ public class LibraryServicesTest {
         books.deleteAll();
     }
 
+    @Test
+    public void registerLibrarianTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerLibrarianWith(readerRequest);
+        assertEquals(1, librarians.count());
+    }
     @Test
     public void addBookTest(){
         AddBookRequest addBookRequest = new AddBookRequest();

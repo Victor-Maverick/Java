@@ -9,7 +9,7 @@ import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
-import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
+import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,8 +31,8 @@ public class Mapper {
         return bookResponse;
     }
 
-    public static RegisterReaderResponse map(Reader reader){
-        RegisterReaderResponse readerResponse = new RegisterReaderResponse();
+    public static RegisterResponse map(Reader reader){
+        RegisterResponse readerResponse = new RegisterResponse();
         readerResponse.setId(reader.getId());
         readerResponse.setUsername(reader.getUsername());
         readerResponse.setPhoneNumber(readerResponse.getPhoneNumber());

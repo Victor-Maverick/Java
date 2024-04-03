@@ -5,7 +5,7 @@ import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
-import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
+import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,14 @@ import static africa.semicolon.Amazon.utils.Mapper.map;
 public class LibraryServicesImpl implements LibraryServices{
     private final BookServices bookServices;
     private final ReaderSerVices readerSerVices;
+    private final LibrarianService librarianService;
     @Override
     public AddBookResponse addBookWith(AddBookRequest addBookRequest) {
         return bookServices.addBookWith(addBookRequest);
     }
 
     @Override
-    public RegisterReaderResponse registerReaderWith(CreateReaderRequest readerRequest) {
+    public RegisterResponse registerReaderWith(CreateReaderRequest readerRequest) {
         return readerSerVices.registerReaderWith(readerRequest);
     }
 
@@ -45,5 +46,10 @@ public class LibraryServicesImpl implements LibraryServices{
     @Override
     public LogoutResponse readerLogout(LogoutRequest logoutRequest) {
         return readerSerVices.logout(logoutRequest);
+    }
+
+    @Override
+    public RegisterResponse registerLibrarianWith(CreateReaderRequest readerRequest) {
+        return librarianService.register(readerRequest);
     }
 }

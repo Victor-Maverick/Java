@@ -6,7 +6,7 @@ import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
-import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
+import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import africa.semicolon.Amazon.exceptions.IncorrectPasswordException;
 import africa.semicolon.Amazon.exceptions.NonExistentReaderException;
 import africa.semicolon.Amazon.exceptions.UsernameExistsException;
@@ -25,7 +25,7 @@ public class ReaderServiceImpl implements ReaderSerVices {
     private final BookServices bookServices;
 
     @Override
-    public RegisterReaderResponse registerReaderWith(CreateReaderRequest readerRequest) {
+    public RegisterResponse registerReaderWith(CreateReaderRequest readerRequest) {
         Reader reader = new Reader();
         if(isUsernameExisting(readerRequest))throw new UsernameExistsException("Reader exists with that username");
         map(reader, readerRequest);

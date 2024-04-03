@@ -4,12 +4,12 @@ import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
-import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
+import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface ReaderSerVices {
-    RegisterReaderResponse registerReaderWith(CreateReaderRequest readerRequest);
+    RegisterResponse registerReaderWith(CreateReaderRequest readerRequest);
 
     Report requestBookWith(BorrowRequest borrowRequest);
 
