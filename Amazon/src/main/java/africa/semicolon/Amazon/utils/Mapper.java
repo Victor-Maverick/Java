@@ -7,6 +7,7 @@ import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
+import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 
 import java.time.LocalDateTime;
@@ -53,6 +54,14 @@ public class Mapper {
         report.setIssueDate(LocalDateTime.now());
         report.setReturnDate(report.getIssueDate().plusDays(5));
         return report;
+    }
+
+    public static LoginResponse mapLogin(Reader reader){
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setId(reader.getId());
+        loginResponse.setUsername(reader.getUsername());
+        loginResponse.setLoggedIn(reader.isLoggedIn());
+        return loginResponse;
     }
 
 }

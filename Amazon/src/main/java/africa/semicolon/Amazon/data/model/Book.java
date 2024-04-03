@@ -12,7 +12,6 @@ public class Book {
     private boolean isReserved;
     private String author;
     private Integer isbn;
-    private Integer quantity;
     private LocalDateTime dateAdded = LocalDateTime.now();
 
 }

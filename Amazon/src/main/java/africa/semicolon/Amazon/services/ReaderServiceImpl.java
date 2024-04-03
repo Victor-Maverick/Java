@@ -6,6 +6,8 @@ import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.dtos.requests.IssueRequest;
+import africa.semicolon.Amazon.dtos.requests.LoginRequest;
+import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 import africa.semicolon.Amazon.exceptions.UsernameExistsException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static africa.semicolon.Amazon.utils.Mapper.map;
+import static africa.semicolon.Amazon.utils.Mapper.mapLogin;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +43,14 @@ public class ReaderServiceImpl implements ReaderSerVices {
     @Override
     public Report issueBook(IssueRequest issueRequest) {
         return bookServices.issueBook(issueRequest);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        Reader reader = readers.findByUsername(loginRequest.getUsername());
+        reader.setLoggedIn(true);
+        readers.save(reader);
+        return mapLogin(reader);
     }
 
     private boolean isUsernameExisting(CreateReaderRequest readerRequest){

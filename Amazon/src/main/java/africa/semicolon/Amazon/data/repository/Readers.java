@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Readers extends MongoRepository<Reader, String> {
+    Reader findByUsername(String username);
 }

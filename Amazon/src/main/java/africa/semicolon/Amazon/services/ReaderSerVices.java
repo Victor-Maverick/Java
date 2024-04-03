@@ -4,6 +4,8 @@ import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.dtos.requests.IssueRequest;
+import africa.semicolon.Amazon.dtos.requests.LoginRequest;
+import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +16,6 @@ public interface ReaderSerVices {
     Report requestBookWith(BorrowRequest borrowRequest);
 
     Report issueBook(IssueRequest issueRequest);
+
+    LoginResponse login(LoginRequest loginRequest);
 }
