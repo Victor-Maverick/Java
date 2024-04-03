@@ -3,12 +3,12 @@ package africa.semicolon.Amazon.services;
 import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.data.repository.Readers;
-import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
-import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
-import africa.semicolon.Amazon.dtos.requests.IssueRequest;
-import africa.semicolon.Amazon.dtos.requests.LoginRequest;
+import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
+import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
+import africa.semicolon.Amazon.exceptions.IncorrectPasswordException;
+import africa.semicolon.Amazon.exceptions.NonExistentReaderException;
 import africa.semicolon.Amazon.exceptions.UsernameExistsException;
 import lombok.RequiredArgsConstructor;
 
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static africa.semicolon.Amazon.utils.Mapper.map;
-import static africa.semicolon.Amazon.utils.Mapper.mapLogin;
+import static africa.semicolon.Amazon.utils.Mapper.*;
 
 @Service
 @RequiredArgsConstructor
@@ -48,9 +47,28 @@ public class ReaderServiceImpl implements ReaderSerVices {
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         Reader reader = readers.findByUsername(loginRequest.getUsername());
+        validateUsername(reader);
+        validatePassword(loginRequest, reader);
         reader.setLoggedIn(true);
         readers.save(reader);
         return mapLogin(reader);
+    }
+
+    @Override
+    public LogoutResponse logout(LogoutRequest logoutRequest) {
+        Reader reader = readers.findByUsername(logoutRequest.getUsername());
+        validateUsername(reader);
+        reader.setLoggedIn(true);
+        readers.save(reader);
+        return mapLogout(reader);
+    }
+
+    private static void validateUsername(Reader reader) {
+        if (reader == null)throw new NonExistentReaderException("user does not exist with that username");
+    }
+
+    private static void validatePassword(LoginRequest loginRequest, Reader reader) {
+        if(!reader.getPassword().equals(loginRequest.getPassword()))throw new IncorrectPasswordException("wrong password");
     }
 
     private boolean isUsernameExisting(CreateReaderRequest readerRequest){

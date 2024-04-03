@@ -243,6 +243,88 @@ public class LibraryServicesTest {
         loginRequest.setUsername("username");
         loginRequest.setPassword("password");
         libraryServices.login(loginRequest);
+        assertTrue(readers.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void WrongPasswordAttemptLoginTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username1");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username1");
+        loginRequest.setPassword("wrong password");
+        try {
+            libraryServices.login(loginRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "wrong password");
+        }
+        assertFalse(readers.findByUsername("username1").isLoggedIn());
+    }
+
+    @Test
+    public void WrongUsernameAttemptLoginTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username1");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("wrong username");
+        loginRequest.setPassword("password");
+        try {
+            libraryServices.login(loginRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "user does not exist with that username");
+        }
+        assertFalse(readers.findByUsername("username1").isLoggedIn());
+    }
+
+    @Test
+    public void readerLogoutTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryServices.login(loginRequest);
+        assertTrue(readers.findByUsername("username").isLoggedIn());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("username");
+        libraryServices.readerLogout(logoutRequest);
+    }
+
+    @Test
+    public void wrongUsernameLogoutAttemptTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryServices.login(loginRequest);
+        assertTrue(readers.findByUsername("username").isLoggedIn());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("wrong username");
+        try {
+            libraryServices.readerLogout(logoutRequest);
+        }
+        catch(AmazonAppException e){
+            assertEquals(e.getMessage(), "user does not exist with that username");
+        }
     }
 
 }

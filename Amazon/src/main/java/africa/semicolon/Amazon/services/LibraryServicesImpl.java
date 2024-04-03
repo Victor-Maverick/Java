@@ -4,6 +4,7 @@ import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
+import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class LibraryServicesImpl implements LibraryServices{
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         return readerSerVices.login(loginRequest);
+    }
+
+    @Override
+    public LogoutResponse readerLogout(LogoutRequest logoutRequest) {
+        return readerSerVices.logout(logoutRequest);
     }
 }

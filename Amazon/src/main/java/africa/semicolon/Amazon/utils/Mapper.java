@@ -8,6 +8,7 @@ import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
+import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 
 import java.time.LocalDateTime;
@@ -63,5 +64,13 @@ public class Mapper {
         loginResponse.setLoggedIn(reader.isLoggedIn());
         return loginResponse;
     }
+
+    public static LogoutResponse mapLogout(Reader reader){
+        LogoutResponse logoutResponse = new LogoutResponse();
+        logoutResponse.setUsername(reader.getUsername());
+        logoutResponse.setLoggedIn(reader.isLoggedIn());
+        return logoutResponse;
+    }
+
 
 }
