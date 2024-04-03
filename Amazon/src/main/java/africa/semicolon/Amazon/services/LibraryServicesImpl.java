@@ -1,12 +1,9 @@
 package africa.semicolon.Amazon.services;
 
 import africa.semicolon.Amazon.data.model.Report;
-import africa.semicolon.Amazon.data.repository.Books;
-import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
-import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
-import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
-import africa.semicolon.Amazon.dtos.requests.IssueRequest;
+import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
+import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,5 +34,11 @@ public class LibraryServicesImpl implements LibraryServices{
     @Override
     public Report issueBook(IssueRequest issueRequest) {
         return readerSerVices.issueBook(issueRequest);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+
+        return null;
     }
 }

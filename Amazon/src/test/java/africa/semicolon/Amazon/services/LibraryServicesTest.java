@@ -2,10 +2,7 @@ package africa.semicolon.Amazon.services;
 import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.data.repository.Readers;
-import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
-import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
-import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
-import africa.semicolon.Amazon.dtos.requests.IssueRequest;
+import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -95,7 +92,7 @@ public class LibraryServicesTest {
     }
 
     @Test
-    public void bookRequestTest(){
+    public void requestBookTest(){
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookTitle("my book");
         addBookRequest.setAuthor("victor");
@@ -110,7 +107,7 @@ public class LibraryServicesTest {
     }
 
     @Test
-    public void bookNonExistingTest(){
+    public void requestNonExistingBookTest(){
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookTitle("my book");
         addBookRequest.setAuthor("victor");
@@ -118,11 +115,31 @@ public class LibraryServicesTest {
         libraryServices.addBookWith(addBookRequest);
         BorrowRequest borrowRequest = new BorrowRequest();
         borrowRequest.setTitle("book");
+        borrowRequest.setAuthor("victor");
         try {
             libraryServices.requestForBookWith(borrowRequest);
         }
         catch (AmazonAppException e){
             assertEquals(e.getMessage(), "no book with that title");
+        }
+    }
+
+
+    @Test
+    public void requestExistingBookWithWrongAuthorTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        libraryServices.addBookWith(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("wrong author");
+        try {
+            libraryServices.requestForBookWith(borrowRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "no such author for that book");
         }
     }
 
@@ -212,6 +229,20 @@ public class LibraryServicesTest {
             assertEquals(e.getMessage(), "wrong author");
         }
         assertTrue(books.findBookByTitle("my book").isReserved());
+    }
+
+    @Test
+    public void readerLoginTest(){
+        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerReaderWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryServices.login(loginRequest);
     }
 
 }

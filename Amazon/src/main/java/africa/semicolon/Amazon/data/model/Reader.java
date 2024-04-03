@@ -12,6 +12,7 @@ public class Reader {
     private String id;
     private String username;
     private String password;
+    private boolean isLoggedIn;
     private String address;
     private String phoneNumber;
     private LocalDateTime dateRegistered = LocalDateTime.now();
