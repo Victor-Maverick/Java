@@ -6,6 +6,7 @@ import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
+import africa.semicolon.Amazon.dtos.requests.IssueRequest;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -95,7 +96,7 @@ public class LibraryServicesTest {
     }
 
     @Test
-    public void setBookRequestTest(){
+    public void bookRequestTest(){
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookTitle("my book");
         addBookRequest.setAuthor("victor");
@@ -107,5 +108,48 @@ public class LibraryServicesTest {
         libraryServices.requestForBookWith(borrowRequest);
         assertTrue(books.findBookByTitle("my book").isReserved());
     }
+
+    @Test
+    public void bookNonExistingTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        libraryServices.addBookWith(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("book");
+        try {
+            libraryServices.requestForBookWith(borrowRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "no book with that title");
+        }
+    }
+
+    @Test
+    public void returnBookTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryServices.addBookWith(addBookRequest);
+        Reader reader = new Reader();
+        reader.setUsername("username");
+        reader.setPassword("password");
+        reader.setAddress("semicolon");
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setUsername(reader.getUsername());
+        borrowRequest.setAuthor("victor");
+        libraryServices.requestForBookWith(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+
+        IssueRequest issueRequest = new IssueRequest();
+        issueRequest.setUsername(reader.getUsername());
+        issueRequest.setAuthor("victor");
+        libraryServices.issueBook(issueRequest);
+    }
+
 
 }

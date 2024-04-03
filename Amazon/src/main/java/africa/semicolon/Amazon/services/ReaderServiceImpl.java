@@ -1,9 +1,11 @@
 package africa.semicolon.Amazon.services;
 
 import africa.semicolon.Amazon.data.model.Reader;
+import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.data.repository.Readers;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
+import africa.semicolon.Amazon.dtos.requests.IssueRequest;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 import africa.semicolon.Amazon.exceptions.UsernameExistsException;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +31,14 @@ public class ReaderServiceImpl implements ReaderSerVices {
     }
 
     @Override
-    public void requestBookWith(BorrowRequest borrowRequest) {
+    public Report requestBookWith(BorrowRequest borrowRequest) {
         bookServices.requestBookWith(borrowRequest);
+        return null;
+    }
+
+    @Override
+    public Report issueBook(IssueRequest issueRequest) {
+        return null;
     }
 
     private boolean isUsernameExisting(CreateReaderRequest readerRequest){

@@ -2,11 +2,14 @@ package africa.semicolon.Amazon.utils;
 
 import africa.semicolon.Amazon.data.model.Book;
 import africa.semicolon.Amazon.data.model.Reader;
+import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
+import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Mapper {
@@ -41,4 +44,15 @@ public class Mapper {
         reader.setAddress(readerRequest.getAddress());
         reader.setPhoneNumber(readerRequest.getPhoneNumber());
     }
+
+    public static Report map(Book book, BorrowRequest borrowRequest){
+        Report report = new Report();
+        report.setId(book.getId());
+        report.setBookTitle(book.getTitle());
+        report.setUsername(borrowRequest.getUsername());
+        report.setIssueDate(LocalDateTime.now());
+        report.setReturnDate(report.getIssueDate().plusDays(5));
+        return report;
+    }
+
 }

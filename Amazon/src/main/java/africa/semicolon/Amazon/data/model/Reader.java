@@ -15,4 +15,5 @@ public class Reader {
     private String address;
     private String phoneNumber;
     private LocalDateTime dateRegistered = LocalDateTime.now();
+    private Report report;
 }

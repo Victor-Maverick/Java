@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 @Data
 @Document("Report_Table")
 public class Report {
-
     private String id;
-    private String book_id;
+    private String username;
+    private String bookTitle;
+    private String author;
     private LocalDateTime issueDate;
     private LocalDateTime returnDate;
 }

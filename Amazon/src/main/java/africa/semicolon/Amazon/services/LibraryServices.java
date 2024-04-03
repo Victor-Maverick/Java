@@ -1,8 +1,10 @@
 package africa.semicolon.Amazon.services;
 
+import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
 import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
+import africa.semicolon.Amazon.dtos.requests.IssueRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterReaderResponse;
 import org.springframework.stereotype.Service;
@@ -14,5 +16,7 @@ public interface LibraryServices {
 
     RegisterReaderResponse registerReaderWith(CreateReaderRequest readerRequest);
 
-    void requestForBookWith(BorrowRequest borrowRequest);
+    Report requestForBookWith(BorrowRequest borrowRequest);
+
+    Report issueBook(IssueRequest issueRequest);
 }

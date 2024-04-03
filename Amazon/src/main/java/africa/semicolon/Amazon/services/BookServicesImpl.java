@@ -1,6 +1,7 @@
 package africa.semicolon.Amazon.services;
 
 import africa.semicolon.Amazon.data.model.Book;
+import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
@@ -10,6 +11,7 @@ import africa.semicolon.Amazon.exceptions.NonExistentAuthorException;
 import africa.semicolon.Amazon.exceptions.NonExistingBookException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 
 import static africa.semicolon.Amazon.utils.Mapper.map;
 
@@ -28,14 +30,14 @@ public class BookServicesImpl implements BookServices{
     }
 
     @Override
-    public void requestBookWith(BorrowRequest borrowRequest) {
+    public Report requestBookWith(BorrowRequest borrowRequest) {
         Book book = books.findBookByTitle(borrowRequest.getTitle());
         if (book == null) throw new NonExistingBookException("no book with that title");
         if(book.getAuthor().equalsIgnoreCase(borrowRequest.getAuthor()))
             throw new NonExistentAuthorException("no such author for that book");
         book.setReserved(true);
         books.save(book);
-
+        return map(book, borrowRequest);
     }
 
 
