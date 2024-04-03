@@ -16,7 +16,6 @@ import static africa.semicolon.Amazon.utils.Mapper.map;
 @Service
 @RequiredArgsConstructor
 public class LibraryServicesImpl implements LibraryServices{
-    private final Books books;
     private final BookServices bookServices;
     private final ReaderSerVices readerSerVices;
     @Override

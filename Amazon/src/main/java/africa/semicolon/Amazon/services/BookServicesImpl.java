@@ -5,6 +5,7 @@ import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
+import africa.semicolon.Amazon.dtos.requests.IssueRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.exceptions.IsbnExistsException;
 import africa.semicolon.Amazon.exceptions.NonExistentAuthorException;
@@ -20,6 +21,7 @@ import static africa.semicolon.Amazon.utils.Mapper.map;
 public class BookServicesImpl implements BookServices{
 
     private final Books books;
+
     @Override
     public AddBookResponse addBookWith(AddBookRequest addBookRequest) {
         Book book = new Book();
@@ -33,11 +35,22 @@ public class BookServicesImpl implements BookServices{
     public Report requestBookWith(BorrowRequest borrowRequest) {
         Book book = books.findBookByTitle(borrowRequest.getTitle());
         if (book == null) throw new NonExistingBookException("no book with that title");
-        if(book.getAuthor().equalsIgnoreCase(borrowRequest.getAuthor()))
+        if(!book.getAuthor().equalsIgnoreCase(borrowRequest.getAuthor()))
             throw new NonExistentAuthorException("no such author for that book");
         book.setReserved(true);
         books.save(book);
         return map(book, borrowRequest);
+    }
+
+    @Override
+    public Report issueBook(IssueRequest issueRequest) {
+        Report report = new Report();
+        Book book = books.findBookByTitle(issueRequest.getTitle());
+        if (book == null)throw new NonExistingBookException("no such book");
+        if (!book.getAuthor().equalsIgnoreCase(issueRequest.getAuthor()))throw new NonExistentAuthorException("wrong author");
+        book.setReserved(false);
+        books.save(book);
+        return report;
     }
 
 

@@ -1,5 +1,4 @@
 package africa.semicolon.Amazon.services;
-
 import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.data.repository.Readers;
@@ -105,6 +104,7 @@ public class LibraryServicesTest {
         libraryServices.addBookWith(addBookRequest);
         BorrowRequest borrowRequest = new BorrowRequest();
         borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("victor");
         libraryServices.requestForBookWith(borrowRequest);
         assertTrue(books.findBookByTitle("my book").isReserved());
     }
@@ -144,12 +144,74 @@ public class LibraryServicesTest {
         borrowRequest.setAuthor("victor");
         libraryServices.requestForBookWith(borrowRequest);
         assertTrue(books.findBookByTitle("my book").isReserved());
-
         IssueRequest issueRequest = new IssueRequest();
         issueRequest.setUsername(reader.getUsername());
+        issueRequest.setTitle("my book");
         issueRequest.setAuthor("victor");
         libraryServices.issueBook(issueRequest);
+        assertFalse(books.findBookByTitle("my book").isReserved());
     }
 
+    @Test
+    public void returnWrongBook_throwsExceptionTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryServices.addBookWith(addBookRequest);
+        Reader reader = new Reader();
+        reader.setUsername("username");
+        reader.setPassword("password");
+        reader.setAddress("semicolon");
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setUsername(reader.getUsername());
+        borrowRequest.setAuthor("victor");
+        libraryServices.requestForBookWith(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+        IssueRequest issueRequest = new IssueRequest();
+        issueRequest.setUsername(reader.getUsername());
+        issueRequest.setTitle("book");
+        issueRequest.setAuthor("victor");
+        try {
+            libraryServices.issueBook(issueRequest);
+        }
+        catch(AmazonAppException e){
+            assertEquals(e.getMessage(), "no such book");
+        }
+        assertTrue(books.findBookByTitle("my book").isReserved());
+    }
+
+    @Test
+    public void returnBookWithWrongAuthorTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryServices.addBookWith(addBookRequest);
+        Reader reader = new Reader();
+        reader.setUsername("username");
+        reader.setPassword("password");
+        reader.setAddress("semicolon");
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setUsername(reader.getUsername());
+        borrowRequest.setAuthor("victor");
+        libraryServices.requestForBookWith(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+        IssueRequest issueRequest = new IssueRequest();
+        issueRequest.setUsername(reader.getUsername());
+        issueRequest.setTitle("my book");
+        issueRequest.setAuthor("wrong username");
+        try {
+            libraryServices.issueBook(issueRequest);
+        }
+        catch(AmazonAppException e){
+            assertEquals(e.getMessage(), "wrong author");
+        }
+        assertTrue(books.findBookByTitle("my book").isReserved());
+    }
 
 }

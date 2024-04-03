@@ -21,6 +21,7 @@ import static africa.semicolon.Amazon.utils.Mapper.map;
 public class ReaderServiceImpl implements ReaderSerVices {
     private final Readers readers;
     private final BookServices bookServices;
+
     @Override
     public RegisterReaderResponse registerReaderWith(CreateReaderRequest readerRequest) {
         Reader reader = new Reader();
@@ -32,13 +33,13 @@ public class ReaderServiceImpl implements ReaderSerVices {
 
     @Override
     public Report requestBookWith(BorrowRequest borrowRequest) {
-        bookServices.requestBookWith(borrowRequest);
-        return null;
+        return bookServices.requestBookWith(borrowRequest);
+
     }
 
     @Override
     public Report issueBook(IssueRequest issueRequest) {
-        return null;
+        return bookServices.issueBook(issueRequest);
     }
 
     private boolean isUsernameExisting(CreateReaderRequest readerRequest){
