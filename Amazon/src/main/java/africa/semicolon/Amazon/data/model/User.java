@@ -14,5 +14,5 @@ public class User {
     private String address;
     private String phoneNumber;
     private LocalDateTime dateRegistered = LocalDateTime.now();
-    private Report report;
+
 }

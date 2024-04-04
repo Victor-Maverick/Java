@@ -31,7 +31,7 @@ public class LibraryServicesTest {
 
     @Test
     public void registerLibrarianTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
@@ -71,7 +71,7 @@ public class LibraryServicesTest {
 
     @Test
     public void registerReaderTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
@@ -83,14 +83,14 @@ public class LibraryServicesTest {
 
     @Test
     public void registerTwoSameReadersTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
         readerRequest.setPhoneNumber("08148624877");
         libraryServices.registerReaderWith(readerRequest);
         assertEquals(1, readers.count());
-        CreateReaderRequest readerRequest2 = new CreateReaderRequest();
+        RegisterRequest readerRequest2 = new RegisterRequest();
         readerRequest2.setUsername("username");
         readerRequest2.setPassword("password");
         readerRequest2.setAddress("semicolon Sabo");
@@ -246,7 +246,7 @@ public class LibraryServicesTest {
 
     @Test
     public void readerLoginTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
@@ -261,7 +261,7 @@ public class LibraryServicesTest {
 
     @Test
     public void WrongPasswordAttemptLoginTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username1");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
@@ -281,7 +281,7 @@ public class LibraryServicesTest {
 
     @Test
     public void WrongUsernameAttemptLoginTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username1");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
@@ -301,7 +301,7 @@ public class LibraryServicesTest {
 
     @Test
     public void readerLogoutTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");
@@ -319,7 +319,7 @@ public class LibraryServicesTest {
 
     @Test
     public void wrongUsernameLogoutAttemptTest(){
-        CreateReaderRequest readerRequest = new CreateReaderRequest();
+        RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
         readerRequest.setPassword("password");
         readerRequest.setAddress("semicolon Sabo");

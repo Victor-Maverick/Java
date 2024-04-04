@@ -25,7 +25,7 @@ public class ReaderServiceImpl implements ReaderSerVices {
     private final BookServices bookServices;
 
     @Override
-    public RegisterResponse registerReaderWith(CreateReaderRequest readerRequest) {
+    public RegisterResponse registerReaderWith(RegisterRequest readerRequest) {
         Reader reader = new Reader();
         if(isUsernameExisting(readerRequest))throw new UsernameExistsException("Reader exists with that username");
         map(reader, readerRequest);
@@ -71,7 +71,7 @@ public class ReaderServiceImpl implements ReaderSerVices {
         if(!reader.getPassword().equals(loginRequest.getPassword()))throw new IncorrectPasswordException("wrong password");
     }
 
-    private boolean isUsernameExisting(CreateReaderRequest readerRequest){
+    private boolean isUsernameExisting(RegisterRequest readerRequest){
         List<Reader> readerList = readers.findAll();
         for (Reader reader : readerList){
             if (reader.getUsername().equalsIgnoreCase(readerRequest.getUsername()))return true;

@@ -1,11 +1,15 @@
 package africa.semicolon.Amazon.services;
 
-import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
+import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
+import africa.semicolon.Amazon.dtos.requests.RegisterRequest;
+import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface LibrarianService {
 
-    RegisterResponse register(CreateReaderRequest readerRequest);
+    RegisterResponse register(RegisterRequest readerRequest);
+
+    AddBookResponse addBookWith(AddBookRequest addBookRequest);
 }

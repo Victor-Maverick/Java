@@ -1,11 +1,12 @@
 package africa.semicolon.Amazon.utils;
 
 import africa.semicolon.Amazon.data.model.Book;
+import africa.semicolon.Amazon.data.model.Librarian;
 import africa.semicolon.Amazon.data.model.Reader;
 import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
 import africa.semicolon.Amazon.dtos.requests.BorrowRequest;
-import africa.semicolon.Amazon.dtos.requests.CreateReaderRequest;
+import africa.semicolon.Amazon.dtos.requests.RegisterRequest;
 import africa.semicolon.Amazon.dtos.responses.AddBookResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
@@ -40,7 +41,7 @@ public class Mapper {
        return readerResponse;
     }
 
-    public static void map(Reader reader, CreateReaderRequest readerRequest){
+    public static void map(Reader reader, RegisterRequest readerRequest){
         reader.setUsername(readerRequest.getUsername());
         reader.setPassword(readerRequest.getPassword());
         reader.setAddress(readerRequest.getAddress());
@@ -72,5 +73,13 @@ public class Mapper {
         return logoutResponse;
     }
 
+    public static RegisterResponse map(Librarian librarian){
+        RegisterResponse response = new RegisterResponse();
+        response.setId(librarian.getId());
+        response.setUsername(librarian.getUsername());
+        response.setDateCreated(DateTimeFormatter.ofPattern("mm/MM/yyyy").format(LocalDateTime.now()));
+        response.setPhoneNumber(librarian.getPhoneNumber());
+        return response;
+    }
 
 }

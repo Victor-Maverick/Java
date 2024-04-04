@@ -13,7 +13,7 @@ public interface LibraryServices {
 
     AddBookResponse addBookWith(AddBookRequest addBookRequest);
 
-    RegisterResponse registerReaderWith(CreateReaderRequest readerRequest);
+    RegisterResponse registerReaderWith(RegisterRequest readerRequest);
 
     Report requestForBookWith(BorrowRequest borrowRequest);
 
@@ -23,5 +23,5 @@ public interface LibraryServices {
 
     LogoutResponse readerLogout(LogoutRequest logoutRequest);
 
-    RegisterResponse registerLibrarianWith(CreateReaderRequest readerRequest);
+    RegisterResponse registerLibrarianWith(RegisterRequest readerRequest);
 }

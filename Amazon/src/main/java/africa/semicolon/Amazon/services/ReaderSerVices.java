@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ReaderSerVices {
-    RegisterResponse registerReaderWith(CreateReaderRequest readerRequest);
+    RegisterResponse registerReaderWith(RegisterRequest readerRequest);
 
     Report requestBookWith(BorrowRequest borrowRequest);
 

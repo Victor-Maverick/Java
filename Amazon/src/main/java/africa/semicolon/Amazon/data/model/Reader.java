@@ -10,5 +10,5 @@ import java.time.LocalDateTime;
 @Data
 @Document("Reader_Table")
 public class Reader extends User{
-
+    private Report report;
 }

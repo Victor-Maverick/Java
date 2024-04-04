@@ -14,16 +14,15 @@ import static africa.semicolon.Amazon.utils.Mapper.map;
 @Service
 @RequiredArgsConstructor
 public class LibraryServicesImpl implements LibraryServices{
-    private final BookServices bookServices;
     private final ReaderSerVices readerSerVices;
     private final LibrarianService librarianService;
     @Override
     public AddBookResponse addBookWith(AddBookRequest addBookRequest) {
-        return bookServices.addBookWith(addBookRequest);
+        return librarianService.addBookWith(addBookRequest);
     }
 
     @Override
-    public RegisterResponse registerReaderWith(CreateReaderRequest readerRequest) {
+    public RegisterResponse registerReaderWith(RegisterRequest readerRequest) {
         return readerSerVices.registerReaderWith(readerRequest);
     }
 
@@ -49,7 +48,7 @@ public class LibraryServicesImpl implements LibraryServices{
     }
 
     @Override
-    public RegisterResponse registerLibrarianWith(CreateReaderRequest readerRequest) {
+    public RegisterResponse registerLibrarianWith(RegisterRequest readerRequest) {
         return librarianService.register(readerRequest);
     }
 }
