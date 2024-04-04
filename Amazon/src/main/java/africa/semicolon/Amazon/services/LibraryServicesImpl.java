@@ -38,7 +38,7 @@ public class LibraryServicesImpl implements LibraryServices{
     }
 
     @Override
-    public LoginResponse login(LoginRequest loginRequest) {
+    public LoginResponse logReaderIn(LoginRequest loginRequest) {
         return readerSerVices.login(loginRequest);
     }
 

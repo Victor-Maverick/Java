@@ -19,7 +19,7 @@ public interface LibraryServices {
 
     Report issueBook(IssueRequest issueRequest);
 
-    LoginResponse login(LoginRequest loginRequest);
+    LoginResponse logReaderIn(LoginRequest loginRequest);
 
     LogoutResponse readerLogout(LogoutRequest logoutRequest);
 

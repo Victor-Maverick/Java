@@ -2,10 +2,8 @@ package africa.semicolon.Amazon.controllers;
 
 import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.data.repository.Librarians;
-import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
-import africa.semicolon.Amazon.dtos.requests.LoginRequest;
-import africa.semicolon.Amazon.dtos.requests.LogoutRequest;
-import africa.semicolon.Amazon.dtos.requests.RegisterRequest;
+import africa.semicolon.Amazon.data.repository.Readers;
+import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +20,14 @@ public class LibraryControllerTest {
     private Librarians librarians;
     @Autowired
     private Books books;
+    @Autowired
+    private Readers readers;
 
 
     @BeforeEach
     public void collapseAll(){
         librarians.deleteAll();
+        readers.deleteAll();
     }
     @Test
     public void addLibrarianTest(){
@@ -125,6 +126,122 @@ public class LibraryControllerTest {
         addBookRequest.setIsbn(231);
         libraryController.addBook(addBookRequest);
         assertEquals(1, books.count());
-
     }
+
+    @Test
+    public void addTwoBooksWithSameIsbnTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        libraryController.addBook(addBookRequest);
+        assertEquals(1, books.count());
+        AddBookRequest addBookRequest2 = new AddBookRequest();
+        addBookRequest2.setBookTitle("my book");
+        addBookRequest2.setAuthor("victor");
+        addBookRequest2.setIsbn(231);
+        try {
+            libraryController.addBook(addBookRequest2);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "book exists with that isb number");
+        }
+        assertEquals(1, books.count());
+    }
+
+    @Test
+    public void registerReaderTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        assertEquals(1, readers.count());
+    }
+
+    @Test
+    public void registerNonUniqueUsersTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        assertEquals(1, readers.count());
+        RegisterRequest readerRequest2 = new RegisterRequest();
+        readerRequest2.setUsername("username");
+        readerRequest2.setPassword("password");
+        readerRequest2.setAddress("semicolon Sabo");
+        readerRequest2.setPhoneNumber("08148624877");
+        try {
+            libraryController.registerReader(readerRequest2);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "user exists with that username");
+        }
+        assertEquals(1, readers.count());
+    }
+
+    @Test
+    public void readerLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.logReaderIn(loginRequest);
+        assertTrue(readers.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void wrongPasswordLoginAttemptTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("wrong password");
+        try {
+            libraryController.logReaderIn(loginRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "wrong password");
+        }
+        assertFalse(readers.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void requestExistingBookTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.logReaderIn(loginRequest);
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryController.addBook(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("victor");
+        borrowRequest.setUsername("username");
+        libraryController.borrowBook(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+    }
+
 }

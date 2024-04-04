@@ -331,7 +331,7 @@ public class LibraryServicesTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("username");
         loginRequest.setPassword("password");
-        libraryServices.login(loginRequest);
+        libraryServices.logReaderIn(loginRequest);
         assertTrue(readers.findByUsername("username").isLoggedIn());
     }
 
@@ -347,7 +347,7 @@ public class LibraryServicesTest {
         loginRequest.setUsername("username1");
         loginRequest.setPassword("wrong password");
         try {
-            libraryServices.login(loginRequest);
+            libraryServices.logReaderIn(loginRequest);
         }
         catch (AmazonAppException e){
             assertEquals(e.getMessage(), "wrong password");
@@ -367,7 +367,7 @@ public class LibraryServicesTest {
         loginRequest.setUsername("wrong username");
         loginRequest.setPassword("password");
         try {
-            libraryServices.login(loginRequest);
+            libraryServices.logReaderIn(loginRequest);
         }
         catch (AmazonAppException e){
             assertEquals(e.getMessage(), "user does not exist with that username");
@@ -386,7 +386,7 @@ public class LibraryServicesTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("username");
         loginRequest.setPassword("password");
-        libraryServices.login(loginRequest);
+        libraryServices.logReaderIn(loginRequest);
         assertTrue(readers.findByUsername("username").isLoggedIn());
         LogoutRequest logoutRequest = new LogoutRequest();
         logoutRequest.setUsername("username");
@@ -404,7 +404,7 @@ public class LibraryServicesTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("username");
         loginRequest.setPassword("password");
-        libraryServices.login(loginRequest);
+        libraryServices.logReaderIn(loginRequest);
         assertTrue(readers.findByUsername("username").isLoggedIn());
         LogoutRequest logoutRequest = new LogoutRequest();
         logoutRequest.setUsername("wrong username");

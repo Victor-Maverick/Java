@@ -1,13 +1,11 @@
 package africa.semicolon.Amazon.controllers;
 
-import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
-import africa.semicolon.Amazon.dtos.requests.LoginRequest;
-import africa.semicolon.Amazon.dtos.requests.LogoutRequest;
-import africa.semicolon.Amazon.dtos.requests.RegisterRequest;
+import africa.semicolon.Amazon.data.model.Report;
+import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.ApiResponse;
+import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import africa.semicolon.Amazon.services.LibraryServices;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,8 +63,39 @@ public class LibraryController {
         catch (AmazonAppException e){
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-
     }
 
 
+    @PostMapping("/register-reader")
+    public ResponseEntity<?> registerReader(@RequestBody RegisterRequest readerRequest) {
+        try {
+            var response = libraryServices.registerReaderWith(readerRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("reader-logIn")
+    public ResponseEntity<?> logReaderIn(LoginRequest loginRequest) {
+        try{
+            LoginResponse response = libraryServices.logReaderIn(loginRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/borrow-book")
+    public ResponseEntity<?> borrowBook(BorrowRequest borrowRequest) {
+        try{
+            Report report = libraryServices.requestForBookWith(borrowRequest);
+            return new ResponseEntity<>(new ApiResponse(true, report), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

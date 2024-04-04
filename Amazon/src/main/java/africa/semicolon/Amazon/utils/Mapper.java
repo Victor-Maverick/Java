@@ -36,7 +36,7 @@ public class Mapper {
         RegisterResponse readerResponse = new RegisterResponse();
         readerResponse.setId(reader.getId());
         readerResponse.setUsername(reader.getUsername());
-        readerResponse.setPhoneNumber(readerResponse.getPhoneNumber());
+        readerResponse.setPhoneNumber(reader.getPhoneNumber());
         readerResponse.setDateCreated(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(reader.getDateRegistered()));
        return readerResponse;
     }
