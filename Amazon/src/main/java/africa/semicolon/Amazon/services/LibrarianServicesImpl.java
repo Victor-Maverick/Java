@@ -27,6 +27,7 @@ public class LibrarianServicesImpl implements LibrarianService{
         Librarian librarian = new Librarian();
         librarian.setUsername(registerRequest.getUsername());
         librarian.setPassword(registerRequest.getPassword());
+        librarian.setPhoneNumber(registerRequest.getPhoneNumber());
         librarian.setAddress(registerRequest.getAddress());
         librarians.save(librarian);
         return map(librarian);
