@@ -1,9 +1,13 @@
 package africa.semicolon.Amazon.controllers;
 
+import africa.semicolon.Amazon.data.repository.Books;
 import africa.semicolon.Amazon.data.repository.Librarians;
+import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
+import africa.semicolon.Amazon.dtos.requests.LoginRequest;
+import africa.semicolon.Amazon.dtos.requests.LogoutRequest;
 import africa.semicolon.Amazon.dtos.requests.RegisterRequest;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
-import africa.semicolon.Amazon.services.LibraryServices;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +20,14 @@ public class LibraryControllerTest {
     private LibraryController libraryController;
     @Autowired
     private Librarians librarians;
+    @Autowired
+    private Books books;
 
+
+    @BeforeEach
+    public void collapseAll(){
+        librarians.deleteAll();
+    }
     @Test
     public void addLibrarianTest(){
         RegisterRequest readerRequest = new RegisterRequest();
@@ -52,4 +63,68 @@ public class LibraryControllerTest {
 
     }
 
+    @Test
+    public void librarianLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerLibrarian(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.signLibrarianIn(loginRequest);
+        assertTrue(librarians.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void librarianWrongPasswordLoginAttemptTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerLibrarian(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("wrong password");
+        try {
+            libraryController.signLibrarianIn(loginRequest);
+        }
+        catch(AmazonAppException e){
+            assertEquals(e.getMessage(), "wrong password");
+        }
+        assertFalse(librarians.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void librarianLogoutTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerLibrarian(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.signLibrarianIn(loginRequest);
+        assertTrue(librarians.findByUsername("username").isLoggedIn());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("username");
+        libraryController.signLibrarianOut(logoutRequest);
+        assertFalse(librarians.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void addBookTest(){
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        libraryController.addBook(addBookRequest);
+        assertEquals(1, books.count());
+
+    }
 }

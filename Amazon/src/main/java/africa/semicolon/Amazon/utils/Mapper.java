@@ -84,6 +84,7 @@ public class Mapper {
 
     public static LoginResponse mapLogin(Librarian librarian){
         LoginResponse response = new LoginResponse();
+        response.setId(librarian.getId());
         response.setUsername(librarian.getUsername());
         response.setLoggedIn(librarian.isLoggedIn());
         return response;

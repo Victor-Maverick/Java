@@ -1,5 +1,8 @@
 package africa.semicolon.Amazon.controllers;
 
+import africa.semicolon.Amazon.dtos.requests.AddBookRequest;
+import africa.semicolon.Amazon.dtos.requests.LoginRequest;
+import africa.semicolon.Amazon.dtos.requests.LogoutRequest;
 import africa.semicolon.Amazon.dtos.requests.RegisterRequest;
 import africa.semicolon.Amazon.dtos.responses.ApiResponse;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
@@ -30,4 +33,40 @@ public class LibraryController {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/lib-signIn")
+    public ResponseEntity<?> signLibrarianIn(@RequestBody LoginRequest loginRequest) {
+        try{
+            var response = libraryServices.librarianLogin(loginRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/libLogOut")
+    public ResponseEntity<?> signLibrarianOut(@RequestBody LogoutRequest logoutRequest) {
+        try{
+            var response = libraryServices.librarianLogout(logoutRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.LOCKED);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/add-book")
+    public ResponseEntity<?> addBook(@RequestBody AddBookRequest bookRequest){
+        try{
+            var response = libraryServices.addBookWith(bookRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
 }
