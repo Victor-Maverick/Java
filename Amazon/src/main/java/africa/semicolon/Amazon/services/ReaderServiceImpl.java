@@ -8,7 +8,7 @@ import africa.semicolon.Amazon.dtos.responses.LoginResponse;
 import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import africa.semicolon.Amazon.exceptions.IncorrectPasswordException;
-import africa.semicolon.Amazon.exceptions.NonExistentReaderException;
+import africa.semicolon.Amazon.exceptions.NonExistentUserException;
 import africa.semicolon.Amazon.exceptions.UsernameExistsException;
 import lombok.RequiredArgsConstructor;
 
@@ -64,7 +64,7 @@ public class ReaderServiceImpl implements ReaderSerVices {
     }
 
     private static void validateUsername(Reader reader) {
-        if (reader == null)throw new NonExistentReaderException("user does not exist with that username");
+        if (reader == null)throw new NonExistentUserException("user does not exist with that username");
     }
 
     private static void validatePassword(LoginRequest loginRequest, Reader reader) {

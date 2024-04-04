@@ -27,6 +27,7 @@ public class LibraryServicesTest {
     public void setup(){
         readers.deleteAll();
         books.deleteAll();
+        librarians.deleteAll();
     }
 
     @Test
@@ -39,6 +40,81 @@ public class LibraryServicesTest {
         libraryServices.registerLibrarianWith(readerRequest);
         assertEquals(1, librarians.count());
     }
+
+    @Test
+    public void LibrarianLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerLibrarianWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryServices.librarianLogin(loginRequest);
+        assertTrue(librarians.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void WrongUsernameLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerLibrarianWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("wrong username");
+        loginRequest.setPassword("wrong password");
+        try {
+            libraryServices.librarianLogin(loginRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "no such staff");
+        }
+
+    }
+
+    @Test
+    public void librarianWrongPasswordLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerLibrarianWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("wrong password");
+        try {
+            libraryServices.librarianLogin(loginRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "wrong password");
+        }
+        assertFalse(librarians.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void librarianLogoutTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryServices.registerLibrarianWith(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryServices.librarianLogin(loginRequest);
+        assertTrue(librarians.findByUsername("username").isLoggedIn());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("username");
+        libraryServices.librarianLogout(logoutRequest);
+        assertFalse(librarians.findByUsername("username").isLoggedIn());
+    }
+
     @Test
     public void addBookTest(){
         AddBookRequest addBookRequest = new AddBookRequest();

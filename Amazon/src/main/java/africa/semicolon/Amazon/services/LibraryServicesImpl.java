@@ -51,4 +51,14 @@ public class LibraryServicesImpl implements LibraryServices{
     public RegisterResponse registerLibrarianWith(RegisterRequest readerRequest) {
         return librarianService.register(readerRequest);
     }
+
+    @Override
+    public LoginResponse librarianLogin(LoginRequest loginRequest) {
+        return librarianService.login(loginRequest);
+    }
+
+    @Override
+    public LogoutResponse librarianLogout(LogoutRequest logoutRequest) {
+        return librarianService.logout(logoutRequest);
+    }
 }

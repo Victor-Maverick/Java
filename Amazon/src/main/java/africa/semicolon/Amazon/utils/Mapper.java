@@ -82,4 +82,17 @@ public class Mapper {
         return response;
     }
 
+    public static LoginResponse mapLogin(Librarian librarian){
+        LoginResponse response = new LoginResponse();
+        response.setUsername(librarian.getUsername());
+        response.setLoggedIn(librarian.isLoggedIn());
+        return response;
+    }
+    public static LogoutResponse logoutMap(Librarian librarian){
+        LogoutResponse response = new LogoutResponse();
+        response.setUsername(librarian.getUsername());
+        response.setLoggedIn(librarian.isLoggedIn());
+        return response;
+    }
+
 }

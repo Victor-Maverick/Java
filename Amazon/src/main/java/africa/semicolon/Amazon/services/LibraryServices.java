@@ -24,4 +24,8 @@ public interface LibraryServices {
     LogoutResponse readerLogout(LogoutRequest logoutRequest);
 
     RegisterResponse registerLibrarianWith(RegisterRequest readerRequest);
+
+    LoginResponse librarianLogin(LoginRequest loginRequest);
+
+    LogoutResponse librarianLogout(LogoutRequest logoutRequest);
 }
