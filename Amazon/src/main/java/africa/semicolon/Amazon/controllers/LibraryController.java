@@ -4,6 +4,7 @@ import africa.semicolon.Amazon.data.model.Report;
 import africa.semicolon.Amazon.dtos.requests.*;
 import africa.semicolon.Amazon.dtos.responses.ApiResponse;
 import africa.semicolon.Amazon.dtos.responses.LoginResponse;
+import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
 import africa.semicolon.Amazon.exceptions.AmazonAppException;
 import africa.semicolon.Amazon.services.LibraryServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,29 @@ public class LibraryController {
         try{
             Report report = libraryServices.requestForBookWith(borrowRequest);
             return new ResponseEntity<>(new ApiResponse(true, report), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/return-book")
+    public ResponseEntity<?> issueBook(IssueRequest issueRequest) {
+        try{
+            Report report = libraryServices.issueBook(issueRequest);
+            return new ResponseEntity<>(new ApiResponse(true, report), HttpStatus.OK);
+        }
+        catch (AmazonAppException e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("/log_reader_out")
+    public ResponseEntity<?> logReaderOut(LogoutRequest logoutRequest) {
+        try{
+            LogoutResponse response = libraryServices.readerLogout(logoutRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), HttpStatus.OK);
         }
         catch (AmazonAppException e){
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);

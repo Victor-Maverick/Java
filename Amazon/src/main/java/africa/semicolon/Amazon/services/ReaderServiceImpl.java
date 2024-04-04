@@ -58,7 +58,7 @@ public class ReaderServiceImpl implements ReaderSerVices {
     public LogoutResponse logout(LogoutRequest logoutRequest) {
         Reader reader = readers.findByUsername(logoutRequest.getUsername());
         validateUsername(reader);
-        reader.setLoggedIn(true);
+        reader.setLoggedIn(false);
         readers.save(reader);
         return mapLogout(reader);
     }

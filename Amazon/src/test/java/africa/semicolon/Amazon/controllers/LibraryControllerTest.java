@@ -28,6 +28,7 @@ public class LibraryControllerTest {
     public void collapseAll(){
         librarians.deleteAll();
         readers.deleteAll();
+        books.deleteAll();
     }
     @Test
     public void addLibrarianTest(){
@@ -199,6 +200,25 @@ public class LibraryControllerTest {
     }
 
     @Test
+    public void readerLogoutTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.logReaderIn(loginRequest);
+        assertTrue(readers.findByUsername("username").isLoggedIn());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("username");
+        libraryController.logReaderOut(logoutRequest);
+        assertFalse(readers.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
     public void wrongPasswordLoginAttemptTest(){
         RegisterRequest readerRequest = new RegisterRequest();
         readerRequest.setUsername("username");
@@ -242,6 +262,134 @@ public class LibraryControllerTest {
         borrowRequest.setUsername("username");
         libraryController.borrowBook(borrowRequest);
         assertTrue(books.findBookByTitle("my book").isReserved());
+    }
+
+    @Test
+    public void requestBookWithoutLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        libraryController.addBook(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("victor");
+        borrowRequest.setUsername("username");
+        try {
+            libraryController.borrowBook(borrowRequest);
+        }
+        catch(AmazonAppException e){
+            assertEquals(e.getMessage(), "log in first");
+        }
+        assertFalse(books.findBookByTitle("my book").isReserved());
+    }
+    @Test
+    public void requestReservedBookTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.logReaderIn(loginRequest);
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryController.addBook(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("victor");
+        borrowRequest.setUsername("username");
+        libraryController.borrowBook(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+        try{
+            libraryController.borrowBook(borrowRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "book reserved");
+        }
+    }
+
+    @Test
+    public void issueBookTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.logReaderIn(loginRequest);
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryController.addBook(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("victor");
+        borrowRequest.setUsername("username");
+        libraryController.borrowBook(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+        IssueRequest issueRequest = new IssueRequest();
+        issueRequest.setTitle("my book");
+        issueRequest.setAuthor("victor");
+        issueRequest.setUsername("username");
+        libraryController.issueBook(issueRequest);
+        assertFalse(books.findBookByTitle("my book").isReserved());
+    }
+
+    @Test
+    public void returnBookWithoutLoginTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerReader(readerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        libraryController.logReaderIn(loginRequest);
+        AddBookRequest addBookRequest = new AddBookRequest();
+        addBookRequest.setBookTitle("my book");
+        addBookRequest.setAuthor("victor");
+        addBookRequest.setIsbn(231);
+        assertEquals("my book", addBookRequest.getBookTitle());
+        libraryController.addBook(addBookRequest);
+        BorrowRequest borrowRequest = new BorrowRequest();
+        borrowRequest.setTitle("my book");
+        borrowRequest.setAuthor("victor");
+        borrowRequest.setUsername("username");
+        libraryController.borrowBook(borrowRequest);
+        assertTrue(books.findBookByTitle("my book").isReserved());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("username");
+        libraryController.logReaderOut(logoutRequest);
+        IssueRequest issueRequest = new IssueRequest();
+        issueRequest.setTitle("my book");
+        issueRequest.setAuthor("victor");
+        issueRequest.setUsername("username");
+        try {
+            libraryController.issueBook(issueRequest);
+        }
+        catch (AmazonAppException e){
+            assertEquals(e.getMessage(), "log in first");
+        }
     }
 
 }
