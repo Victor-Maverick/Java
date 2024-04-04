@@ -27,4 +27,15 @@ public class LibraryControllerTest {
         assertEquals(1, librarians.count());
     }
 
+    @Test
+    public void addNonUniqueUsernamesTest(){
+        RegisterRequest readerRequest = new RegisterRequest();
+        readerRequest.setUsername("username");
+        readerRequest.setPassword("password");
+        readerRequest.setAddress("semicolon Sabo");
+        readerRequest.setPhoneNumber("08148624877");
+        libraryController.registerLibrarian(readerRequest);
+        assertEquals(1, librarians.count());
+    }
+
 }

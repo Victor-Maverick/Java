@@ -12,6 +12,7 @@ import africa.semicolon.Amazon.dtos.responses.LogoutResponse;
 import africa.semicolon.Amazon.dtos.responses.RegisterResponse;
 import africa.semicolon.Amazon.exceptions.IncorrectPasswordException;
 import africa.semicolon.Amazon.exceptions.NonExistentUserException;
+import africa.semicolon.Amazon.exceptions.UsernameExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class LibrarianServicesImpl implements LibrarianService{
     private final Librarians librarians;
     @Override
     public RegisterResponse register(RegisterRequest registerRequest) {
+        librarians.findAll().forEach(librarian -> {if (librarian.getUsername().equalsIgnoreCase(registerRequest.getUsername()))throw new UsernameExistsException("username exists");
+        });
         Librarian librarian = new Librarian();
         librarian.setUsername(registerRequest.getUsername());
         librarian.setPassword(registerRequest.getPassword());
