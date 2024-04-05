@@ -11,7 +11,6 @@ public class Note {
     private String id;
     private String title;
     private String content;
-    private Category category;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
 }

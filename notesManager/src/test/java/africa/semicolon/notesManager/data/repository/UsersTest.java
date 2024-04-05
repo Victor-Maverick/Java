@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
 public class UsersTest {
+    @Autowired
+    Users users;
 
     @BeforeEach
     public void setUp() {
