@@ -123,14 +123,14 @@ public class NoteServicesTest {
         services.addNote(addNoteRequest);
         assertEquals(1, notes.count());
         UpdateRequest updateRequest = new UpdateRequest();
-        updateRequest.setTitle("wrong note");
+        updateRequest.setTitle("first note");
         updateRequest.setNewTitle("new note");
-        updateRequest.setAuthor("username");
+        updateRequest.setAuthor("wrong username");
         try {
             services.updateNote(updateRequest);
         }
         catch (NoteManagerException e){
-            assertEquals(e.getMessage(), "no note with that title does not exist");
+            assertEquals(e.getMessage(), "note is not for author provided");
         }
     }
 

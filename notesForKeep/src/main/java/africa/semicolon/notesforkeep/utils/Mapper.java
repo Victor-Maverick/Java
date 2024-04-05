@@ -5,6 +5,7 @@ import africa.semicolon.notesforkeep.data.model.User;
 import africa.semicolon.notesforkeep.dtos.request.AddNoteRequest;
 import africa.semicolon.notesforkeep.dtos.request.RegisterRequest;
 import africa.semicolon.notesforkeep.dtos.responses.AddNoteResponse;
+import africa.semicolon.notesforkeep.dtos.responses.LoginResponse;
 import africa.semicolon.notesforkeep.dtos.responses.RegisterResponse;
 import africa.semicolon.notesforkeep.dtos.responses.UpdateResponse;
 
@@ -44,6 +45,14 @@ public class Mapper {
         response.setUpdatedTitle(note.getHeader());
         response.setUpdatedContent(note.getContent());
         response.setDateUpdated(note.getDateUpdated());
+        return response;
+    }
+
+    public static LoginResponse mapLogin(User user){
+        LoginResponse response = new LoginResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setLoggedIn(user.isLoggedIn());
         return response;
     }
 
