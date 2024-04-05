@@ -2,8 +2,10 @@ package africa.semicolon.notesforkeep.service;
 
 import africa.semicolon.notesforkeep.data.model.User;
 import africa.semicolon.notesforkeep.data.repository.Users;
+import africa.semicolon.notesforkeep.dtos.request.AddNoteRequest;
 import africa.semicolon.notesforkeep.dtos.request.LoginRequest;
 import africa.semicolon.notesforkeep.dtos.request.RegisterRequest;
+import africa.semicolon.notesforkeep.dtos.responses.AddNoteResponse;
 import africa.semicolon.notesforkeep.dtos.responses.LoginResponse;
 import africa.semicolon.notesforkeep.dtos.responses.RegisterResponse;
 import africa.semicolon.notesforkeep.exceptions.IncorrectPasswordException;
@@ -19,6 +21,7 @@ import static africa.semicolon.notesforkeep.utils.Mapper.mapLogin;
 @RequiredArgsConstructor
 public class UserServicesImpl implements UserServices{
     private final Users users;
+    private final NoteServices noteServices;
     @Override
     public RegisterResponse register(RegisterRequest registerRequest) {
         users.findAll().forEach(user -> {if(user.getUsername().equalsIgnoreCase(registerRequest.getUsername()))throw new UsernameExistsException("username exists");});
@@ -36,5 +39,10 @@ public class UserServicesImpl implements UserServices{
         user.setLoggedIn(true);
         users.save(user);
         return mapLogin(user);
+    }
+
+    @Override
+    public AddNoteResponse addNote(AddNoteRequest addNoteRequest) {
+        noteServices.addNote(addNoteRequest);
     }
 }

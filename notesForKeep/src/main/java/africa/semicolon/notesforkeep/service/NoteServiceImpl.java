@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static africa.semicolon.notesforkeep.utils.Mapper.map;
 import static africa.semicolon.notesforkeep.utils.Mapper.mapUpdate;
@@ -30,6 +32,11 @@ public class NoteServiceImpl implements NoteServices {
         Note note = new Note();
         map(note, addNoteRequest);
         notes.save(note);
+        User user = users.findByUsername(addNoteRequest.getAuthor());
+        List<Note> userNotes = user.getNotes();
+        userNotes.add(note);
+        user.setNotes(userNotes);
+        users.save(user);
         return map(note);
     }
 

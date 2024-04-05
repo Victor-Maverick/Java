@@ -1,6 +1,8 @@
 package africa.semicolon.notesforkeep.service;
 
+import africa.semicolon.notesforkeep.data.repository.Notes;
 import africa.semicolon.notesforkeep.data.repository.Users;
+import africa.semicolon.notesforkeep.dtos.request.AddNoteRequest;
 import africa.semicolon.notesforkeep.dtos.request.LoginRequest;
 import africa.semicolon.notesforkeep.dtos.request.RegisterRequest;
 import africa.semicolon.notesforkeep.exceptions.NoteManagerException;
@@ -17,6 +19,8 @@ public class UserServicesTest{
     UserServices userServices;
     @Autowired
     Users users;
+    @Autowired
+    Notes notes;
 
     @BeforeEach
     public void collapseAll(){
@@ -110,7 +114,26 @@ public class UserServicesTest{
             assertEquals(e.getMessage(), "wrong password");
         }
         assertFalse(users.findByUsername("username").isLoggedIn());
+    }
+
+    @Test
+    public void addNoteWhileLoggedInTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
+        AddNoteRequest addNoteRequest = new AddNoteRequest();
+        addNoteRequest.setHeader("first note");
+        addNoteRequest.setContent("note content");
+        userServices.addNote(addNoteRequest);
 
     }
+
 
 }
