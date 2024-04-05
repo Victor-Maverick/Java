@@ -92,4 +92,25 @@ public class UserServicesTest{
         assertFalse(users.findByUsername("username").isLoggedIn());
     }
 
+    @Test
+    public void wrongPasswordLoginAttempt(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("wrong password");
+        try {
+            userServices.login(loginRequest);
+        }
+        catch (NoteManagerException e){
+            assertEquals(e.getMessage(), "wrong password");
+        }
+        assertFalse(users.findByUsername("username").isLoggedIn());
+
+    }
+
 }
