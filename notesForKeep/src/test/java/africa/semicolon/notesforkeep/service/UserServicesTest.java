@@ -24,6 +24,7 @@ public class UserServicesTest{
 
     @BeforeEach
     public void collapseAll(){
+        notes.deleteAll();
         users.deleteAll();
     }
     @Test
@@ -131,6 +132,48 @@ public class UserServicesTest{
         AddNoteRequest addNoteRequest = new AddNoteRequest();
         addNoteRequest.setHeader("first note");
         addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
+        userServices.addNote(addNoteRequest);
+        assertEquals(1, notes.count());
+    }
+
+    @Test
+    public void addNoteWhileLoggedOutAttemptTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        AddNoteRequest addNoteRequest = new AddNoteRequest();
+        addNoteRequest.setHeader("first note");
+        addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
+        try {
+            userServices.addNote(addNoteRequest);
+        }
+        catch (NoteManagerException e){
+            assertEquals(e.getMessage(), "log in first");
+        }
+        assertEquals(0, notes.count());
+    }
+
+    @Test
+    public void updateNoteTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
+        AddNoteRequest addNoteRequest = new AddNoteRequest();
+        addNoteRequest.setHeader("first note");
+        addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
         userServices.addNote(addNoteRequest);
 
     }

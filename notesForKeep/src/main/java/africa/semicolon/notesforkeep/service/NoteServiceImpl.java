@@ -5,9 +5,11 @@ import africa.semicolon.notesforkeep.data.model.User;
 import africa.semicolon.notesforkeep.data.repository.Notes;
 import africa.semicolon.notesforkeep.data.repository.Users;
 import africa.semicolon.notesforkeep.dtos.request.AddNoteRequest;
+import africa.semicolon.notesforkeep.dtos.request.DeleteNoteRequest;
 import africa.semicolon.notesforkeep.dtos.request.UpdateRequest;
 import africa.semicolon.notesforkeep.dtos.responses.AddNoteResponse;
 import africa.semicolon.notesforkeep.dtos.responses.UpdateResponse;
+import africa.semicolon.notesforkeep.exceptions.LoginException;
 import africa.semicolon.notesforkeep.exceptions.NoteNotFoundException;
 import africa.semicolon.notesforkeep.exceptions.TitleExistsException;
 import africa.semicolon.notesforkeep.exceptions.UserNotFoundException;
@@ -15,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static africa.semicolon.notesforkeep.utils.Mapper.map;
@@ -31,8 +32,9 @@ public class NoteServiceImpl implements NoteServices {
         notes.findAll().forEach(note -> {if (note.getHeader().equalsIgnoreCase(addNoteRequest.getHeader()))throw new TitleExistsException("title exists");});
         Note note = new Note();
         map(note, addNoteRequest);
-        notes.save(note);
         User user = users.findByUsername(addNoteRequest.getAuthor());
+        if(!user.isLoggedIn())throw new LoginException("log in first");
+        notes.save(note);
         List<Note> userNotes = user.getNotes();
         userNotes.add(note);
         user.setNotes(userNotes);
@@ -51,5 +53,13 @@ public class NoteServiceImpl implements NoteServices {
         note.setDateUpdated(LocalDateTime.now());
         notes.save(note);
         return mapUpdate(note);
+    }
+
+    @Override
+    public String deleteNote(DeleteNoteRequest deleteNoteRequest) {
+        Note note = notes.findNoteBy(deleteNoteRequest.getNoteTitle());
+        if (note == null) throw new NoteNotFoundException("note not found");
+        User user = users.findByUsername(deleteNoteRequest.getAuthor());
+        return "delete success";
     }
 }

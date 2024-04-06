@@ -2,9 +2,7 @@ package africa.semicolon.notesforkeep.service;
 
 import africa.semicolon.notesforkeep.data.repository.Notes;
 import africa.semicolon.notesforkeep.data.repository.Users;
-import africa.semicolon.notesforkeep.dtos.request.AddNoteRequest;
-import africa.semicolon.notesforkeep.dtos.request.RegisterRequest;
-import africa.semicolon.notesforkeep.dtos.request.UpdateRequest;
+import africa.semicolon.notesforkeep.dtos.request.*;
 import africa.semicolon.notesforkeep.exceptions.NoteManagerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,16 +32,40 @@ public class NoteServicesTest {
 
     @Test
     public void addNoteTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
         AddNoteRequest addNoteRequest = new AddNoteRequest();
+        addNoteRequest.setHeader("first note");
+        addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
         services.addNote(addNoteRequest);
         assertEquals(1, notes.count());
     }
 
     @Test
     public void addNonUniqueNoteTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
         AddNoteRequest addNoteRequest = new AddNoteRequest();
         addNoteRequest.setHeader("first note");
         addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
         services.addNote(addNoteRequest);
         assertEquals(1, notes.count());
         AddNoteRequest addNoteRequest2 = new AddNoteRequest();
@@ -71,6 +93,10 @@ public class NoteServicesTest {
         addNoteRequest.setHeader("first note");
         addNoteRequest.setContent("note content");
         addNoteRequest.setAuthor("username");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
         services.addNote(addNoteRequest);
         assertEquals(1, notes.count());
         UpdateRequest updateRequest = new UpdateRequest();
@@ -90,6 +116,10 @@ public class NoteServicesTest {
         registerRequest.setEmail("vic@gmail.com");
         registerRequest.setPhoneNumber("0902234532");
         userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
         AddNoteRequest addNoteRequest = new AddNoteRequest();
         addNoteRequest.setHeader("first note");
         addNoteRequest.setContent("note content");
@@ -120,6 +150,10 @@ public class NoteServicesTest {
         addNoteRequest.setHeader("first note");
         addNoteRequest.setContent("note content");
         addNoteRequest.setAuthor("username");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
         services.addNote(addNoteRequest);
         assertEquals(1, notes.count());
         UpdateRequest updateRequest = new UpdateRequest();
@@ -132,6 +166,30 @@ public class NoteServicesTest {
         catch (NoteManagerException e){
             assertEquals(e.getMessage(), "note is not for author provided");
         }
+    }
+
+    @Test
+    public void deleteNoteTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        AddNoteRequest addNoteRequest = new AddNoteRequest();
+        addNoteRequest.setHeader("first note");
+        addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
+        services.addNote(addNoteRequest);
+        DeleteNoteRequest deleteRequest = new DeleteNoteRequest();
+        deleteRequest.setNoteTitle("first note");
+        deleteRequest.setAuthor("username");
+        services.deleteNote(deleteRequest);
+        assertEquals(0, notes.count());
     }
 
 }

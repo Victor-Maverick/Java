@@ -43,6 +43,7 @@ public class UserServicesImpl implements UserServices{
 
     @Override
     public AddNoteResponse addNote(AddNoteRequest addNoteRequest) {
-        noteServices.addNote(addNoteRequest);
+        return noteServices.addNote(addNoteRequest);
     }
+
 }
