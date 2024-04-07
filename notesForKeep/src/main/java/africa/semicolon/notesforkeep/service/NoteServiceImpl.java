@@ -81,6 +81,14 @@ public class NoteServiceImpl implements NoteServices {
         return "delete success";
     }
 
+    @Override
+    public List<Note> getNotesFor(String username) {
+        User user = users.findByUsername(username);
+        List<Note> userNotes = user.getNotes();
+        notes.findAll().forEach(note -> {if(note.getAuthor().equalsIgnoreCase(username))userNotes.add(note);});
+        return userNotes;
+    }
+
     private static void validate(Note note, User user) {
         validateNote(note);
         validateUser(user);

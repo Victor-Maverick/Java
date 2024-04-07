@@ -1,11 +1,14 @@
 package africa.semicolon.notesforkeep.service;
 
+import africa.semicolon.notesforkeep.data.model.Note;
 import africa.semicolon.notesforkeep.dtos.request.*;
 import africa.semicolon.notesforkeep.dtos.responses.AddNoteResponse;
 import africa.semicolon.notesforkeep.dtos.responses.LoginResponse;
 import africa.semicolon.notesforkeep.dtos.responses.RegisterResponse;
 import africa.semicolon.notesforkeep.dtos.responses.UpdateResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface UserServices {

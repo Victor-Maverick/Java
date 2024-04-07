@@ -92,7 +92,7 @@ public class UserServicesImpl implements UserServices{
 
     @Override
     public List<Note> getNotesFor(String username) {
-        return null;
+        return noteServices.getNotesFor(username);
     }
 
 
