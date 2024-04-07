@@ -1,5 +1,6 @@
 package africa.semicolon.notesforkeep.service;
 
+import africa.semicolon.notesforkeep.data.model.Note;
 import africa.semicolon.notesforkeep.data.model.User;
 import africa.semicolon.notesforkeep.data.repository.Users;
 import africa.semicolon.notesforkeep.dtos.request.*;
@@ -11,6 +12,8 @@ import africa.semicolon.notesforkeep.exceptions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+import java.util.List;
 
 import static africa.semicolon.notesforkeep.utils.Mapper.map;
 import static africa.semicolon.notesforkeep.utils.Mapper.mapLogin;
@@ -85,6 +88,11 @@ public class UserServicesImpl implements UserServices{
     @Override
     public String deleteNote(DeleteNoteRequest deleteNoteRequest) {
         return noteServices.deleteNote(deleteNoteRequest);
+    }
+
+    @Override
+    public List<Note> getNotesFor(String username) {
+        return null;
     }
 
 

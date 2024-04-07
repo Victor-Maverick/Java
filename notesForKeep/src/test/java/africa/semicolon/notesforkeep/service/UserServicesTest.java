@@ -176,6 +176,7 @@ public class UserServicesTest{
         addNoteRequest.setContent("note content");
         addNoteRequest.setAuthor("username");
         userServices.addNote(addNoteRequest);
+        userServices.getNotesFor("username");
         assertEquals(1, notes.count());
     }
 
@@ -446,5 +447,7 @@ public class UserServicesTest{
         }
         assertEquals(1, notes.count());
     }
+
+
 
 }

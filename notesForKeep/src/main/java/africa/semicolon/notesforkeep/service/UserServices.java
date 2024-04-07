@@ -22,4 +22,6 @@ public interface UserServices {
 
     String deleteUser(DeleteUserRequest deleteUserRequest);
     String deleteNote(DeleteNoteRequest deleteNoteRequest);
+
+    List<Note> getNotesFor(String username);
 }
