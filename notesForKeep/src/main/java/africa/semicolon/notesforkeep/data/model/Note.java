@@ -11,7 +11,7 @@ public class Note {
     private String id;
     private String header;
     private String content;
-    private User author;
+    private String author;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
 

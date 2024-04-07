@@ -4,6 +4,7 @@ import africa.semicolon.notesforkeep.data.model.Note;
 import africa.semicolon.notesforkeep.data.model.User;
 import africa.semicolon.notesforkeep.dtos.request.AddNoteRequest;
 import africa.semicolon.notesforkeep.dtos.request.RegisterRequest;
+import africa.semicolon.notesforkeep.dtos.request.UpdateRequest;
 import africa.semicolon.notesforkeep.dtos.responses.AddNoteResponse;
 import africa.semicolon.notesforkeep.dtos.responses.LoginResponse;
 import africa.semicolon.notesforkeep.dtos.responses.RegisterResponse;
@@ -21,9 +22,10 @@ public class Mapper {
     }
 
     public static void map(Note note, AddNoteRequest noteRequest){
-        note.setContent(noteRequest.getHeader());
         note.setHeader(noteRequest.getHeader());
+        note.setContent(noteRequest.getContent());
         note.setDateCreated(LocalDateTime.now());
+        note.setAuthor(noteRequest.getAuthor());
     }
     public static void map(User user, RegisterRequest request){
         user.setUsername(request.getUsername());
@@ -56,4 +58,14 @@ public class Mapper {
         return response;
     }
 
+    public static Note map(Note note, UpdateRequest updateRequest){
+        Note updatedNote = new Note();
+        updatedNote.setId(note.getId());
+        updatedNote.setHeader(updateRequest.getNewTitle());
+        updatedNote.setContent(updateRequest.getNewContent());
+        updatedNote.setDateCreated(note.getDateCreated());
+        updatedNote.setDateUpdated(LocalDateTime.now());
+        updatedNote.setAuthor(note.getAuthor());
+        return updatedNote;
+    }
 }

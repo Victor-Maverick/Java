@@ -33,7 +33,8 @@ public class NoteServiceImpl implements NoteServices {
         Note note = new Note();
         map(note, addNoteRequest);
         User user = users.findByUsername(addNoteRequest.getAuthor());
-        if(!user.isLoggedIn())throw new LoginException("log in first");
+        validateUser(user);
+        validateUserLogin(user);
         notes.save(note);
         List<Note> userNotes = user.getNotes();
         userNotes.add(note);
@@ -42,24 +43,45 @@ public class NoteServiceImpl implements NoteServices {
         return map(note);
     }
 
+    private static void validateUserLogin(User user) {
+        if(!user.isLoggedIn())throw new LoginException("log in first");
+    }
+
     @Override
     public UpdateResponse updateNote(UpdateRequest updateRequest) {
         Note note = notes.findNoteBy(updateRequest.getTitle());
-        if (note == null)throw new NoteNotFoundException("no note with that title does not exist");
         User user = users.findByUsername(updateRequest.getAuthor());
+        validate(note, user);
+        if(!user.isLoggedIn())throw new LoginException("log in first");
+        Note updatedNote = map(note, updateRequest);
+        notes.delete(note);
+        notes.save(updatedNote);
+        return mapUpdate(updatedNote);
+    }
+
+    private static void validateUser(User user) {
         if (user == null)throw new UserNotFoundException("note is not for author provided");
-        note.setHeader(updateRequest.getTitle());
-        note.setContent(updateRequest.getNewContent());
-        note.setDateUpdated(LocalDateTime.now());
-        notes.save(note);
-        return mapUpdate(note);
+    }
+
+    private static void validateNote(Note note) {
+        if (note == null)throw new NoteNotFoundException("no note with that title does not exist");
     }
 
     @Override
     public String deleteNote(DeleteNoteRequest deleteNoteRequest) {
         Note note = notes.findNoteBy(deleteNoteRequest.getNoteTitle());
-        if (note == null) throw new NoteNotFoundException("note not found");
         User user = users.findByUsername(deleteNoteRequest.getAuthor());
+        validate(note, user);
+        List<Note>userNotes = user.getNotes();
+        notes.delete(note);
+        userNotes.remove(note);
+        user.setNotes(userNotes);
+        users.save(user);
         return "delete success";
+    }
+
+    private static void validate(Note note, User user) {
+        validateNote(note);
+        validateUser(user);
     }
 }
