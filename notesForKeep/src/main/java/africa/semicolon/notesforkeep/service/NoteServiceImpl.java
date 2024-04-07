@@ -36,9 +36,6 @@ public class NoteServiceImpl implements NoteServices {
         validateUser(user);
         validateUserLogin(user);
         notes.save(note);
-        List<Note> userNotes = user.getNotes();
-        userNotes.add(note);
-        user.setNotes(userNotes);
         users.save(user);
         return map(note);
     }
