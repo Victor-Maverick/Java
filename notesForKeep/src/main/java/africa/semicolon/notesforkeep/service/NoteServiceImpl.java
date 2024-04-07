@@ -72,6 +72,7 @@ public class NoteServiceImpl implements NoteServices {
         Note note = notes.findNoteBy(deleteNoteRequest.getNoteTitle());
         User user = users.findByUsername(deleteNoteRequest.getAuthor());
         validate(note, user);
+        validateUserLogin(user);
         List<Note>userNotes = user.getNotes();
         notes.delete(note);
         userNotes.remove(note);

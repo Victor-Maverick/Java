@@ -415,4 +415,36 @@ public class UserServicesTest{
         assertEquals(0, notes.count());
     }
 
+    @Test
+    public void deleteNoteWhileLoggedOutTest(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("username");
+        registerRequest.setPassword("password");
+        registerRequest.setEmail("vic@gmail.com");
+        registerRequest.setPhoneNumber("0902234532");
+        userServices.register(registerRequest);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("username");
+        loginRequest.setPassword("password");
+        userServices.login(loginRequest);
+        AddNoteRequest addNoteRequest = new AddNoteRequest();
+        addNoteRequest.setHeader("first note");
+        addNoteRequest.setContent("note content");
+        addNoteRequest.setAuthor("username");
+        userServices.addNote(addNoteRequest);
+        assertEquals(1, notes.count());
+        LogoutRequest logoutRequest = new LogoutRequest();
+        logoutRequest.setUsername("username");
+        userServices.logout(logoutRequest);
+        DeleteNoteRequest deleteRequest = new DeleteNoteRequest();
+        deleteRequest.setNoteTitle("first note");
+        deleteRequest.setAuthor("username");
+        try {
+            userServices.deleteNote(deleteRequest);
+        }catch (NoteManagerException e){
+            assertEquals(e.getMessage(), "log in first");
+        }
+        assertEquals(1, notes.count());
+    }
+
 }
